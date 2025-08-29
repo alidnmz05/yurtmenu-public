@@ -21,7 +21,7 @@ const [initialized, setInitialized] = useState(false);
 useEffect(() => {
 const run = async () => {
 try {
-const res = await apiFetch("/api/city");
+const res = await apiFetch("/city");
 const data = await res.json();
 setCities(data ?? []);
 if ((data?.length ?? 0) > 0 && !initialized) {
