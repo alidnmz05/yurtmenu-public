@@ -240,6 +240,9 @@ export default function MenuCard(props: MenuItem) {
 
     // üst mavi şerit
     roundRectFill(ctx, PADX, PADY, W - PADX * 2, stripeH, Math.round(8 * s), p.info);
+
+    //ANY HATASI İÇİN
+    
     function pickHeader(p: unknown, fallback: string): string {
   const obj = p as { hall?: unknown; title?: unknown };
   if (typeof obj.hall === "string" && obj.hall.trim()) return obj.hall;
@@ -251,7 +254,7 @@ export default function MenuCard(props: MenuItem) {
     // başlık chip
     // const header = (props as any).hall ?? (props as any).title ?? gunAdi;
     const header = pickHeader(props, gunAdi);
-    
+
     ctx.font = `800 ${titleSize}px ui-sans-serif, system-ui`;
     const chipW = Math.ceil(ctx.measureText(header).width + chipPX * 2);
     const chipY = PADY + stripeH + headerTopGap;
