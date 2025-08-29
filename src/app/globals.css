@@ -1,17 +1,20 @@
-@import "tailwindcss";
+﻿@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* yatay scroll barı gizle ama kaydırma açık kalsın */
+.no-scrollbar {
+  -ms-overflow-style: none;     /* IE/Edge */
+  scrollbar-width: none;        /* Firefox */
 }
-
+.no-scrollbar::-webkit-scrollbar {
+  display: none;                /* Chrome/Safari */
+}
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
@@ -23,4 +26,69 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-up { animation: fadeUp .25s ease both; }
+@layer utilities {
+  /* Basit token yardımcıları */
+  .text-brand-900 { color: hsl(var(--brand-900)); }
+  .border-brand-300 { border-color: hsl(var(--brand-300)); }
+  .bg-brand-100 { background-color: hsl(var(--brand-100)); }
+  .bg-brand-300 { background-color: hsl(var(--brand-300)); }
+  .bg-brand-400 { background-color: hsl(var(--brand-400)); }
+  .bg-brand-500 { background-color: hsl(var(--brand-500)); }
+}
+
+@layer components {
+  /* Header için hazır gradient */
+  .bg-brand-gradient {
+    @apply bg-gradient-to-r;
+    background-image: linear-gradient(
+      to right,
+      hsl(var(--brand-300)),
+      hsl(var(--brand-400)),
+      hsl(var(--brand-500))
+    );
+  }
+
+  /* Buton & Sekme temel stilleri */
+  .btn { @apply px-4 py-2 rounded-lg text-sm font-medium shadow-sm transition; }
+  .btn-primary { @apply btn text-white; background-color: hsl(var(--brand-400)); }
+  .btn-primary:hover { background-color: hsl(var(--brand-500)); }
+
+  .tab { @apply btn border; }
+  .tab-active {
+    @apply text-white;
+    border-color: hsl(var(--brand-400));
+    background-color: hsl(var(--brand-400));
+  }
+  .tab-inactive {
+    @apply bg-white;
+    color: hsl(var(--brand-900));
+    border-color: hsl(var(--brand-300));
+  }
+  .tab-inactive:hover { background-color: hsl(var(--brand-100)); }
+
+  /* Tarih çipi */
+  .chip { @apply min-w-[56px] px-3 py-2 rounded-xl cursor-pointer text-sm; }
+  .chip-active { @apply text-white font-bold; background-color: hsl(var(--brand-400)); }
+  .chip-inactive {
+    @apply bg-white border;
+    color: hsl(var(--brand-900));
+    border-color: hsl(var(--brand-300));
+  }
+  .chip-inactive:hover {
+    background-color: hsl(var(--brand-300));
+    color: white;
+  }
+
+  /* Kart */
+  .card {
+    @apply bg-white rounded-3xl shadow-md p-8 border w-full;
+    border-color: hsl(var(--brand-300));
+  }
 }
