@@ -22,15 +22,8 @@ export default function MenuList({ selectedDate, cityId, mealType }: Props) {
         setLoading(true);
         setError(null);
 
-        const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
-        if (!token) {
-          setError("Giriş yapmanız gerekiyor.");
-          setMenus([]);
-          return;
-        }
-
         const url = `/api/menu/liste?cityId=${cityId}&mealType=${mealType}`;
-        const res = await apiFetch(url, { headers: { Authorization: `Bearer ${token}` } });
+        const res = await apiFetch(url);
         const data: MenuItem[] = await res.json();
         setMenus(Array.isArray(data) ? data : []);
       } catch (e: unknown) {
@@ -49,7 +42,6 @@ export default function MenuList({ selectedDate, cityId, mealType }: Props) {
     if (!selectedDate || menus.length === 0) return;
     const el = document.getElementById(`menu-${selectedDate}`);
     if (el) {
-      // Canvas render’ı için küçük gecikme
       setTimeout(() => el.scrollIntoView({ behavior: "smooth", block: "start" }), 300);
     }
   }, [selectedDate, menus]);
@@ -85,14 +77,13 @@ export default function MenuList({ selectedDate, cityId, mealType }: Props) {
     );
   }
 
- return (
-  <div className="mx-auto w-full max-w-screen-xl px-4 sm:px-6 lg:px-8">
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mt-8">
-      {menus.map((m) => (
-        <MenuCard key={m.id ?? `${m.date}-${m.cityId}-${m.mealType}`} {...m} />
-      ))}
+  return (
+    <div className="mx-auto w-full max-w-screen-xl px-4 sm:px-6 lg:px-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mt-8">
+        {menus.map((m) => (
+          <MenuCard key={m.id ?? `${m.date}-${m.cityId}-${m.mealType}`} {...m} />
+        ))}
+      </div>
     </div>
-  </div>
-);
-
+  );
 }
