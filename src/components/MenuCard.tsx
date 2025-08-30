@@ -45,13 +45,14 @@ export default function MenuCard(props: MenuItem) {
   /* ---- container / canvas ---- */
   const wrapRef = useRef<HTMLDivElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const [wrapW, setWrapW] = useState(720);
+  const [wrapW, setWrapW] = useState(360); // mobil için daha mantıklı başlangıç
 
   useEffect(() => {
     if (!wrapRef.current) return;
     const ro = new ResizeObserver((e) => {
       const w = Math.floor(e[0].contentRect.width);
-      setWrapW(Math.max(420, Math.min(1200, w)));
+      // ⚠️ Min 420 kaldırıldı → küçük ekranlarda taşma olmaz
+      setWrapW(Math.max(0, Math.min(1200, w)));
     });
     ro.observe(wrapRef.current);
     return () => ro.disconnect();
@@ -78,10 +79,9 @@ export default function MenuCard(props: MenuItem) {
              [props.third, props.thirdCalories],
              [props.fourth, props.fourthCalories] ]
       .map(([names, kcals]) => {
-        const parts = parseMeals(names, kcals); // [{name,kcal}]
+        const parts = parseMeals(names, kcals);
         if (!parts.length) return null;
 
-        // solda: "A / B / C"
         const leftTokens: InlineToken[] = [];
         parts.forEach((it, i) => {
           leftTokens.push({ kind: "text", text: it.name, color: p.text });
@@ -90,7 +90,6 @@ export default function MenuCard(props: MenuItem) {
           }
         });
 
-        // sağda: "x kcal / y kcal"
         const rightString = parts
           .map((it) => it.kcal)
           .filter(Boolean)
@@ -123,7 +122,7 @@ export default function MenuCard(props: MenuItem) {
     // Spacing & sizes
     const PADX = Math.round(16 * s);
     const PADY = Math.round(16 * s);
-    const cornerR = Math.round(4 * s);
+    const cornerR = Math.round(16 * s); // wrapper radius ile uyumlu olsun
 
     const stripeH = Math.round(10 * s);
     const chipH   = Math.round(32 * s);
@@ -139,12 +138,12 @@ export default function MenuCard(props: MenuItem) {
     const kcalSize  = Math.round(11 * s);
 
     const rowGap    = Math.round(24 * s);
-    const sepYPad   = Math.round(24 * s); // BOŞLUK KALDI
+    const sepYPad   = Math.round(24 * s);
 
     const maxW = W - PADX * 2;
-    const gapLR = Math.round(12 * s); // sol metin ile sağ kalori arası minimum boşluk
+    const gapLR = Math.round(12 * s);
 
-    /* ---- (Eski) pill helpers (kullanılmıyor) ---- */
+    /* ---- (opsiyonel renk mantığı) ---- */
     const LOW_MAX = 250;
     const HIGH_MIN = 600;
     function kcalColors(k?: string) {
@@ -218,7 +217,7 @@ export default function MenuCard(props: MenuItem) {
       const h = lines * lineH;
       bodyH += h + rowGap + sepYPad;
     });
-    if (groups.length > 0) bodyH -= sepYPad; // son grupta boşluk yok
+    if (groups.length > 0) bodyH -= sepYPad;
 
     // header
     const headerTopGap    = Math.round(14 * s);
@@ -235,24 +234,24 @@ export default function MenuCard(props: MenuItem) {
     c.style.height = `${H}px`;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
+    // ✨ siyah kenar/ghosting olmasın
+    ctx.clearRect(0, 0, W, H);
+
     /* ---- draw ---- */
     roundedPanel(ctx, 0, 0, W, H, cornerR, p.card, p.border);
 
     // üst mavi şerit
     roundRectFill(ctx, PADX, PADY, W - PADX * 2, stripeH, Math.round(8 * s), p.info);
 
-    //ANY HATASI İÇİN
-    
-    function pickHeader(p: unknown, fallback: string): string {
-  const obj = p as { hall?: unknown; title?: unknown };
-  if (typeof obj.hall === "string" && obj.hall.trim()) return obj.hall;
-  if (typeof obj.title === "string" && obj.title.trim()) return obj.title;
-  return fallback;
-}
-
+    // ANY HATASI İÇİN güvenli getter
+    function pickHeader(pu: unknown, fallback: string): string {
+      const obj = pu as { hall?: unknown; title?: unknown };
+      if (typeof obj.hall === "string" && obj.hall.trim()) return obj.hall;
+      if (typeof obj.title === "string" && obj.title.trim()) return obj.title;
+      return fallback;
+    }
 
     // başlık chip
-    // const header = (props as any).hall ?? (props as any).title ?? gunAdi;
     const header = pickHeader(props, gunAdi);
 
     ctx.font = `800 ${titleSize}px ui-sans-serif, system-ui`;
@@ -271,7 +270,7 @@ export default function MenuCard(props: MenuItem) {
     ctx.font = `800 ${dateSize}px ui-sans-serif, system-ui`;
     ctx.fillText(`${String(gunNum).padStart(2, "0")} ${ayKisa} ${yil}`, W - PADX, dateY);
 
-    // Liste (ÇİZGİ YOK — sadece boşluk)
+    // Liste
     let y = PADY + (stripeH + headerTopGap + chipH + headerBottomGap);
 
     groups.forEach((g, idx) => {
@@ -289,18 +288,20 @@ export default function MenuCard(props: MenuItem) {
       y += lines * lineH + rowGap;
 
       if (idx !== groups.length - 1) {
-        // hr(...) KALDIRILDI — sadece aynı boşluk kalsın
         y += sepYPad;
       }
     });
   }, [wrapW, groups, gunAdi, gunNum, ayKisa, yil, p, props]);
 
   return (
-    <div ref={wrapRef} className="w-full select-none">
-      <canvas
-        ref={canvasRef}
-        className="w-full rounded-2xl border border-gray-200 shadow-sm"
-      />
+    // ✅ Kenarları wrapper yönetir: yuvarlak, border, overflow-hidden
+    <div
+      ref={wrapRef}
+      className="w-full rounded-2xl border border-gray-200 shadow-sm overflow-hidden"
+      style={{ background: "var(--card, #fff)" }}
+    >
+      {/* Canvas block + tam genişlik → taşma yok, siyah kenar yok */}
+      <canvas ref={canvasRef} className="block w-full h-auto" />
     </div>
   );
 }
@@ -312,7 +313,7 @@ function roundedPanel(
   roundRectFill(ctx, x, y, w, h, r, fill);
   ctx.strokeStyle = ring;
   ctx.lineWidth = 1;
-  roundedPath(ctx, x, y, w, h, r);
+  roundedPath(ctx, x + 0.5, y + 0.5, w - 1, h - 1, r); // içe al: kırpılma olmasın
   ctx.stroke();
 }
 
