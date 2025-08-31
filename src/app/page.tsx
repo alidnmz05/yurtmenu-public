@@ -80,6 +80,31 @@ export default function Page() {
         )}
       </main>
 
+      {/* --- SEO: Popüler şehir linkleri (crawlable) --- */}
+      <section className="max-w-6xl mx-auto px-4 pb-12">
+        <h2 className="text-lg font-semibold mb-3">Popüler şehirler</h2>
+        <ul className="flex flex-wrap gap-3 text-[15px]">
+          <li><a href="/istanbul/aksam" className="underline hover:no-underline">İstanbul KYK akşam menüsü</a></li>
+          <li><a href="/ankara/aksam"   className="underline hover:no-underline">Ankara KYK akşam menüsü</a></li>
+          <li><a href="/izmir/aksam"    className="underline hover:no-underline">İzmir KYK akşam menüsü</a></li>
+          <li><a href="/bursa/aksam"    className="underline hover:no-underline">Bursa KYK akşam menüsü</a></li>
+          <li><a href="/konya/aksam"    className="underline hover:no-underline">Konya KYK akşam menüsü</a></li>
+          <li><a href="/antalya/aksam"  className="underline hover:no-underline">Antalya KYK akşam menüsü</a></li>
+          <li><a href="/adana/aksam"    className="underline hover:no-underline">Adana KYK akşam menüsü</a></li>
+          <li><a href="/kayseri/aksam"  className="underline hover:no-underline">Kayseri KYK akşam menüsü</a></li>
+          <li><a href="/samsun/aksam"   className="underline hover:no-underline">Samsun KYK akşam menüsü</a></li>
+          <li><a href="/trabzon/aksam"  className="underline hover:no-underline">Trabzon KYK akşam menüsü</a></li>
+        </ul>
+      </section>
+       <div className="max-w-6xl mx-auto px-4 -mt-2 pb-12">
+        {/* Next.js Link kullanırsan prefetch avantajı olur */}
+        {/* import Link from "next/link" */}
+        {/* <Link href="/sehirler" className="underline text-sm text-gray-600">Tüm şehirleri gör →</Link> */}
+        <a href="/sehirler" className="underline text-sm text-gray-600">
+          Tüm şehirleri gör →
+        </a>
+      </div>
+
       {/* Varsayılan SKY paleti (isteğe bağlı): değişkenler tanımlı değilse çalışsın diye */}
       <style jsx global>{`
   :root {
