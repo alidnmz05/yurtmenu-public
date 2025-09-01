@@ -1,6 +1,7 @@
 // src/app/layout.tsx
 import "./globals.css";
 import type { Metadata, Viewport } from "next";
+import Script from "next/script"; // ✅ EKLE
 
 export const metadata: Metadata = {
   // Mutlaka gerçek domainini baz al
@@ -90,28 +91,25 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="tr">
+      <head>
+        {/* ✅ Google AdSense (Auto Ads / doğrulama) */}
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2074568539798437"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
+      </head>
       <body>
         {children}
 
-        {/* JSON-LD: WebSite + Organization (temel) */}
+        {/* JSON-LD (mevcut kodun) */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify([
-              {
-                "@context": "https://schema.org",
-                "@type": "WebSite",
-                "name": "Yurt Menü",
-                "url": "https://kykyemekliste.com"
-              },
-              {
-                "@context": "https://schema.org",
-                "@type": "Organization",
-                "name": "Yurt Menü",
-                "url": "https://kykyemekliste.com",
-                "logo": "https://kykyemekliste.com/icon.png"
-                // "sameAs": ["https://twitter.com/TODO","https://www.instagram.com/TODO"] // varsa ekle
-              }
+              { "@context":"https://schema.org", "@type":"WebSite", "name":"Yurt Menü", "url":"https://kykyemekliste.com" },
+              { "@context":"https://schema.org", "@type":"Organization", "name":"Yurt Menü", "url":"https://kykyemekliste.com", "logo":"https://kykyemekliste.com/icon.png" }
             ]),
           }}
         />
