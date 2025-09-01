@@ -1,33 +1,19 @@
 // src/app/layout.tsx
 import "./globals.css";
 import type { Metadata, Viewport } from "next";
-import Script from "next/script"; // ✅ EKLE
 
 export const metadata: Metadata = {
-  // Mutlaka gerçek domainini baz al
   metadataBase: new URL("https://kykyemekliste.com"),
-
-  // Başlık şablonu
-  title: {
-    default: "KYK Yemek Listesi",
-    template: "%s | Yurt Menü",
-  },
-
-  // Kısa ve anahtar kelimeli açıklama
+  title: { default: "KYK Yemek Listesi", template: "%s | Yurt Menü" },
   description:
     "KYK yurtlarının günlük yemek menüsü. Şehre ve öğüne göre kahvaltı, öğle ve akşam menülerini hızlıca görüntüleyin.",
-
-  // İsteğe bağlı ama güzel olur
   keywords: [
-    "KYK", "yemek listesi", "yurt menü", "KYK yemek", "KYK menü",
-    "kahvaltı", "öğle", "akşam", "öğrenci yurdu", "yemek menüsü",
+    "KYK","yemek listesi","yurt menü","KYK yemek","KYK menü",
+    "kahvaltı","öğle","akşam","öğrenci yurdu","yemek menüsü",
   ],
-
   applicationName: "Yurt Menü",
   category: "Food & Drink",
   alternates: { canonical: "/" },
-
-  // Open Graph
   openGraph: {
     type: "website",
     siteName: "Yurt Menü",
@@ -36,74 +22,57 @@ export const metadata: Metadata = {
       "KYK yurtlarının günlük yemek menüsü: şehir ve öğüne göre anında görüntüleyin.",
     url: "https://kykyemekliste.com",
     locale: "tr_TR",
-    // /public içine og-default.png eklersen burada otomatik kullanılır
     images: [{ url: "/og-default.png", width: 1200, height: 630, alt: "Yurt Menü – KYK Yemek Listesi" }],
   },
-
-  // Twitter kartı
   twitter: {
     card: "summary_large_image",
     title: "KYK Yemek Listesi",
-    description:
-      "KYK yurtlarının günlük yemek menüsü. Şehre ve öğüne göre hızlıca bakın.",
-    site: "@TODO_twitter",     // TODO: varsa hesap adı
-    creator: "@TODO_twitter",  // TODO: varsa hesap adı
+    description: "KYK yurtlarının günlük yemek menüsü. Şehre ve öğüne göre hızlıca bakın.",
+    site: "@TODO_twitter",
+    creator: "@TODO_twitter",
     images: ["/og-default.png"],
   },
-
-  // Robotlar (GoogleBot ayarıyla birlikte)
   robots: {
     index: true,
     follow: true,
     googleBot: {
-      index: true,
-      follow: true,
+      index: true, follow: true,
       "max-image-preview": "large",
       "max-snippet": -1,
       "max-video-preview": -1,
     },
   },
-
-  // İkonlar (public/ içine dosyaları ekle)
   icons: {
     icon: [{ url: "/favicon.ico" }, { url: "/icon.png", type: "image/png" }],
     apple: [{ url: "/apple-touch-icon.png" }],
   },
-
-  // Site doğrulama (Search Console vs) — .env'den alırsan pratik olur
   verification: {
     google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || undefined,
-    // bing: "TODO",
   },
-
-  // (Opsiyonel) Manifest’in varsa
-  // manifest: "/site.webmanifest",
 };
 
-// Renk/viewport
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   colorScheme: "light",
-  themeColor: "#69C2D3", // markana yakın
+  themeColor: "#69C2D3",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="tr">
       <head>
-        {/* ✅ Google AdSense (Auto Ads / doğrulama) */}
-        <Script
+        {/* ✅ DÜZ AdSense script (head içinde) – next/script KULLANMA */}
+        <script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2074568539798437"
           crossOrigin="anonymous"
-          strategy="afterInteractive"
-        />
+        ></script>
       </head>
       <body>
         {children}
 
-        {/* JSON-LD (mevcut kodun) */}
+        {/* JSON-LD */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
