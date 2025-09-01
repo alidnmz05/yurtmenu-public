@@ -5,6 +5,7 @@ import CitySelect from "@/components/CitySelect";
 import MealTypeSwitch from "@/components/MealTypeSwitch";
 import DatePickerHorizontal from "@/components/DatePickerHorizontal";
 import MenuList from "@/components/MenuList";
+import Link from "next/link"; // en üste ekle
 
 export default function Page() {
   const today = new Date();
@@ -79,6 +80,24 @@ export default function Page() {
           </div>
         )}
       </main>
+      
+       {/* Footer */}
+     <footer className="border-t mt-10">
+  <div className="max-w-6xl mx-auto px-4 py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-600">
+    <p>© {new Date().getFullYear()} Yurt Menü</p>
+    <nav className="flex gap-4">
+      <Link href="/hakkinda" className="hover:underline">
+        Hakkında
+      </Link>
+      <Link href="/iletisim" className="hover:underline">
+        İletişim
+      </Link>
+      <Link href="/gizlilik-politikasi" className="hover:underline">
+        Gizlilik Politikası
+      </Link>
+    </nav>
+  </div>
+</footer>
 
       
 
