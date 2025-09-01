@@ -1,11 +1,12 @@
 // src/app/[city]/page.tsx
 import { redirect } from "next/navigation";
 
-export default async function CityIndex({
-  params,
-}: {
-  params: { city: string };
-}) {
+// ✅ params Promise olmalı
+type CityParams = Promise<{ city: string }>;
+
+export default async function CityIndex({ params }: { params: CityParams }) {
+  const { city } = await params; // ✅ await etmeden kullanamazsın
+
   // Şehre girince varsayılan olarak "aksam"a yönlendir
-  redirect(`/${params.city}/aksam`);
+  redirect(`/${city}/aksam`);
 }
