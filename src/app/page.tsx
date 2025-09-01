@@ -6,6 +6,7 @@ import MealTypeSwitch from "@/components/MealTypeSwitch";
 import DatePickerHorizontal from "@/components/DatePickerHorizontal";
 import MenuList from "@/components/MenuList";
 import Link from "next/link"; // en üste ekle
+import BannerAd from "@/components/BannerAd";
 
 export default function Page() {
   const today = new Date();
@@ -55,6 +56,8 @@ export default function Page() {
           Beslenme Takibi
         </button>
       </div>
+
+       <BannerAd slot="6240988917" />
 
       <MealTypeSwitch value={mealType} onChange={setMealType} />
 
