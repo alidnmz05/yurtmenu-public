@@ -37,14 +37,30 @@ export default function MenuList({ selectedDate, cityId, mealType }: Props) {
     run();
   }, [cityId, mealType]);
 
-  // Seçili tarihe otomatik kaydır
+  // Seçili tarihe otomatik kaydır - geliştirilmiş versiyon
   useEffect(() => {
-    if (!selectedDate || menus.length === 0) return;
-    const el = document.getElementById(`menu-${selectedDate}`);
-    if (el) {
-      setTimeout(() => el.scrollIntoView({ behavior: "smooth", block: "start" }), 300);
-    }
-  }, [selectedDate, menus]);
+    if (!selectedDate || menus.length === 0 || loading) return;
+    
+    // Menü yüklendikten sonra biraz bekle ve ardından kaydır
+    const timeoutId = setTimeout(() => {
+      const targetMenu = menus.find(menu => menu.date === selectedDate);
+      if (targetMenu) {
+        const element = document.getElementById(`menu-card-${selectedDate}`);
+        if (element) {
+          // Sayfa üstünden biraz offset ile kaydır
+          const headerHeight = 120; // Header + DatePicker yaklaşık yükseklik
+          const elementTop = element.offsetTop - headerHeight;
+          
+          window.scrollTo({
+            top: elementTop,
+            behavior: 'smooth'
+          });
+        }
+      }
+    }, 500); // Menüler render olduktan sonra kaydır
+
+    return () => clearTimeout(timeoutId);
+  }, [selectedDate, menus, loading]);
 
   if (loading) {
     return (
@@ -80,9 +96,21 @@ export default function MenuList({ selectedDate, cityId, mealType }: Props) {
   return (
     <div className="mx-auto w-full max-w-screen-xl px-4 sm:px-6 lg:px-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mt-8">
-        {menus.map((m) => (
-          <MenuCard key={m.id ?? `${m.date}-${m.cityId}-${m.mealType}`} {...m} />
-        ))}
+        {menus
+          .filter((m) => {
+            // Boş menüleri filtrele - MenuCard ile aynı kontrol
+            return [m.first, m.second, m.third, m.fourth]
+              .some(field => field && field.trim().length > 0);
+          })
+          .map((m) => (
+            <div 
+              key={m.id ?? `${m.date}-${m.cityId}-${m.mealType}`}
+              id={`menu-card-${m.date}`}
+              className={`transition-all duration-300 ${selectedDate === m.date ? 'ring-2 ring-[#98d2dd] ring-opacity-50' : ''}`}
+            >
+              <MenuCard {...m} />
+            </div>
+          ))}
       </div>
     </div>
   );

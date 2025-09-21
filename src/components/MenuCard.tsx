@@ -143,20 +143,6 @@ export default function MenuCard(props: MenuItem) {
     const maxW = W - PADX * 2;
     const gapLR = Math.round(12 * s);
 
-    /* ---- (opsiyonel renk mantığı) ---- */
-    const LOW_MAX = 250;
-    const HIGH_MIN = 600;
-    function kcalColors(k?: string) {
-      const n = kcalNumber(k);
-      if (n == null) return { bg: p.info, fg: p.text };
-      if (n <= LOW_MAX)  return { bg: p.successBg, fg: p.successFg };
-      if (n >= HIGH_MIN) return { bg: p.dangerBg,  fg: p.dangerFg  };
-      return { bg: p.warning, fg: "#5c3b00" };
-    }
-    function drawKcalPill(_text: string, _x: number, _baselineY: number) {
-      return 0;
-    }
-
     /* ---- ölçüm ve çizim yardımcıları ---- */
     const nameFont = `800 ${nameSize}px ui-sans-serif, system-ui`;
     const kcalFont = `600 ${kcalSize}px ui-sans-serif, system-ui`;
@@ -292,6 +278,14 @@ export default function MenuCard(props: MenuItem) {
       }
     });
   }, [wrapW, groups, gunAdi, gunNum, ayKisa, yil, p, props]);
+
+  // Şimdi güvenle kontrol edebiliriz - tüm hook'lar çalıştı
+  const hasContent = [props.first, props.second, props.third, props.fourth]
+    .some(field => field && field.trim().length > 0);
+  
+  if (!hasContent) {
+    return null;
+  }
 
   return (
     // ✅ Kenarları wrapper yönetir: yuvarlak, border, overflow-hidden
