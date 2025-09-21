@@ -95,7 +95,7 @@ export default function MenuCard(props: MenuItem) {
           .filter(Boolean)
           .join(" / ");
 
-        return { leftTokens, rightString };
+        return { leftTokens, rightString: "" }; // Kalori gösterimi geçici kapalı
       })
       .filter(Boolean) as { leftTokens: InlineToken[]; rightString: string }[];
   }, [
