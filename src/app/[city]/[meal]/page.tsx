@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getCities, getMenu, type City, type MenuItem } from "@/lib/api";
 import { mealSlugToType, humanMeal, slugifyCity } from "@/lib/seo-maps";
+"use client";
+
+import { useState, useEffect } from "react";
 
 export const revalidate = 3600;   // içerik günlük -> 1 saat iyi
 
