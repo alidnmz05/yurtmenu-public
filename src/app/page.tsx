@@ -7,10 +7,21 @@ import DatePickerHorizontal from "@/components/DatePickerHorizontal";
 import MenuList from "@/components/MenuList";
 import Link from "next/link";
 
+// Türkiye saatine göre öğün tipini belirle
+function getDefaultMealType(): number {
+  const now = new Date();
+  const turkeyTime = new Date(now.toLocaleString("en-US", { timeZone: "Europe/Istanbul" }));
+  const hour = turkeyTime.getHours();
+  
+  // Gece 00:00 - Öğlen 12:00 -> Kahvaltı (0)
+  // Öğlen 12:00 - Gece 00:00 -> Akşam (1)
+  return hour < 12 ? 0 : 1;
+}
+
 export default function Page() {
   const today = new Date();
   const [cityId, setCityId] = useState(1);
-  const [mealType, setMealType] = useState(0);
+  const [mealType, setMealType] = useState(getDefaultMealType());
   const [selectedDate, setSelectedDate] = useState(
     today.toISOString().split("T")[0]
   );
@@ -21,9 +32,9 @@ export default function Page() {
       <header className="bg-gradient-to-r from-[hsl(var(--brand-300))] via-[hsl(var(--brand-400))] to-[hsl(var(--brand-500))] shadow-lg sticky top-0 z-50">
         <div className="max-w-5xl mx-auto px-6 py-5 flex flex-col sm:flex-row justify-between items-center gap-4">
           <h1 className="text-4xl font-extrabold tracking-tight drop-shadow-sm text-white">
-            🍽️ Yurt Menü
+            🍽️ KYK Yemek Liste
           </h1>
-          <CitySelect value={cityId} onChange={setCityId} />
+          <CitySelect value={cityId} onChange={setCityId} disableAutoSelect={false} />
         </div>
       </header>
 
@@ -43,10 +54,16 @@ export default function Page() {
       {/* Footer */}
       <footer className="border-t mt-10">
         <div className="max-w-6xl mx-auto px-4 py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-600">
-          <p>© {new Date().getFullYear()} Yurt Menü</p>
-          <nav className="flex gap-4">
+          <p>© {new Date().getFullYear()} KYK Yemek Liste</p>
+          <nav className="flex flex-wrap gap-4 justify-center">
             <Link href="/hakkinda" className="hover:underline">
               Hakkında
+            </Link>
+            <Link href="/rehber" className="hover:underline">
+              Rehber
+            </Link>
+            <Link href="/sss" className="hover:underline">
+              SSS
             </Link>
             <Link href="/iletisim" className="hover:underline">
               İletişim

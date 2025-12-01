@@ -6,23 +6,25 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://kykyemekliste.com"),
   title: { default: "KYK Yemek Listesi", template: "%s | Yurt Menü" },
   description:
-    "KYK yurtlarının günlük yemek menüsü. Şehre ve öğüne göre kahvaltı, öğle ve akşam menülerini hızlıca görüntüleyin.",
+    "KYK yurtlarının aylık yemek menüsü. Şehre ve öğüne göre sabah ve akşam menülerini hızlıca görüntüleyin.",
   keywords: [
     "KYK","yemek listesi","yurt menü","KYK yemek","KYK menü",
-    "kahvaltı","öğle","akşam","öğrenci yurdu","yemek menüsü",
+    "sabah yemeği","akşam yemeği","öğrenci yurdu","yemek menüsü",
+    "KYK yurtları","yurt yemek listesi","günlük menü","aylık menü",
+    "istanbul KYK menü","ankara KYK menü","izmir KYK menü",
   ],
   applicationName: "Yurt Menü",
   category: "Food & Drink",
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
-    siteName: "Yurt Menü",
-    title: "KYK Yemek Listesi",
+    siteName: "KYK Yemek Liste",
+    title: "KYK Yemek Listesi - Güncel Yurt Menüleri",
     description:
-      "KYK yurtlarının günlük yemek menüsü: şehir ve öğüne göre anında görüntüleyin.",
+      "KYK yurtlarının aylık yemek menüsü: şehir ve öğüne göre anında görüntüleyin. Sabah ve akşam menüleri her ay güncellenir.",
     url: "https://kykyemekliste.com",
     locale: "tr_TR",
-    images: [{ url: "/og-default.png", width: 1200, height: 630, alt: "Yurt Menü – KYK Yemek Listesi" }],
+    images: [{ url: "/og-default.png", width: 1200, height: 630, alt: "KYK Yemek Liste – Yurt Menüleri" }],
   },
   twitter: {
     card: "summary_large_image",
@@ -72,14 +74,50 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         {children}
 
-        {/* JSON-LD */}
+        {/* JSON-LD - Organization & WebSite Schema */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify([
-              { "@context":"https://schema.org", "@type":"WebSite", "name":"Yurt Menü", "url":"https://kykyemekliste.com" },
-              { "@context":"https://schema.org", "@type":"Organization", "name":"Yurt Menü", "url":"https://kykyemekliste.com", "logo":"https://kykyemekliste.com/icon.png" }
-            ]),
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@graph": [
+                {
+                  "@type": "WebSite",
+                  "@id": "https://kykyemekliste.com/#website",
+                  "url": "https://kykyemekliste.com",
+                  "name": "KYK Yemek Liste",
+                  "description": "Türkiye genelindeki KYK yurtlarının günlük yemek menüleri",
+                  "publisher": { "@id": "https://kykyemekliste.com/#organization" },
+                  "inLanguage": "tr-TR",
+                  "potentialAction": {
+                    "@type": "SearchAction",
+                    "target": "https://kykyemekliste.com/sehirler?q={search_term_string}",
+                    "query-input": "required name=search_term_string"
+                  }
+                },
+                {
+                  "@type": "Organization",
+                  "@id": "https://kykyemekliste.com/#organization",
+                  "name": "KYK Yemek Liste",
+                  "url": "https://kykyemekliste.com",
+                  "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://kykyemekliste.com/icon.png",
+                    "width": 512,
+                    "height": 512
+                  },
+                  "sameAs": [
+                    "https://github.com/alidnmz05/yurtmenu-public"
+                  ],
+                  "contactPoint": {
+                    "@type": "ContactPoint",
+                    "contactType": "customer support",
+                    "url": "https://kykyemekliste.com/iletisim",
+                    "availableLanguage": "Turkish"
+                  }
+                }
+              ]
+            })
           }}
         />
       </body>

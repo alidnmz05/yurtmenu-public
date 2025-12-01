@@ -1,15 +1,21 @@
 // src/app/sehirler/page.tsx
 import type { Metadata } from "next";
+import Link from "next/link";
 import { getCities } from "@/lib/api";
 import { slugifyCity, mealTypeToSlug } from "@/lib/seo-maps";
 
 export const revalidate = 86400; // günlük yenile
 
 export const metadata: Metadata = {
-  title: "KYK Yurt Menü – Şehirler",
+  title: "Tüm Şehirler - KYK Yurt Menü Listesi",
   description:
-    "KYK yurt menülerini şehir bazında görüntüleyin. Şehri seçip kahvaltı, öğle ve akşam menülerine hızlıca bakın.",
+    "Türkiye'deki KYK yurtlarının bulunduğu şehirlerin tam listesi. Şehrinizi seçerek sabah ve akşam yemek menülerine hızlıca ulaşın.",
   alternates: { canonical: "/sehirler" },
+  openGraph: {
+    title: "Tüm Şehirler - KYK Yurt Menüleri",
+    description: "Türkiye genelindeki KYK yurt şehirleri ve güncel yemek menüleri",
+    url: "https://kykyemekliste.com/sehirler"
+  }
 };
 
 export default async function Page() {
@@ -27,15 +33,14 @@ export default async function Page() {
           <li key={c.id} className="p-3 border rounded">
             <div className="font-medium mb-2">{c.name}</div>
             <div className="flex gap-3 text-sm">
-              <a className="underline" href={`/${c.slug}/${mealTypeToSlug[0]}`}>Kahvaltı</a>
-              <a className="underline" href={`/${c.slug}/${mealTypeToSlug[1]}`}>Öğle</a>
-              <a className="underline" href={`/${c.slug}/${mealTypeToSlug[2]}`}>Akşam</a>
+              <Link className="underline hover:text-[#69C2D3]" href={`/${c.slug}/${mealTypeToSlug[0]}`}>Kahvaltı</Link>
+              <Link className="underline hover:text-[#69C2D3]" href={`/${c.slug}/${mealTypeToSlug[2]}`}>Akşam</Link>
             </div>
           </li>
         ))}
       </ul>
 
-      {/* JSON-LD: CollectionPage + Breadcrumb */}
+      {/* JSON-LD: CollectionPage + Breadcrumb + ItemList */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -43,12 +48,23 @@ export default async function Page() {
             "@context": "https://schema.org",
             "@type": "CollectionPage",
             "name": "KYK Yurt Menü – Şehirler",
+            "description": "Türkiye'deki KYK yurtlarının bulunduğu şehirlerin listesi",
+            "url": "https://kykyemekliste.com/sehirler",
             "breadcrumb": {
               "@type": "BreadcrumbList",
               "itemListElement": [
                 { "@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "https://kykyemekliste.com" },
                 { "@type": "ListItem", "position": 2, "name": "Şehirler", "item": "https://kykyemekliste.com/sehirler" }
               ]
+            },
+            "mainEntity": {
+              "@type": "ItemList",
+              "itemListElement": items.map((city, idx) => ({
+                "@type": "ListItem",
+                "position": idx + 1,
+                "name": city.name,
+                "url": `https://kykyemekliste.com/${city.slug}/sabah`
+              }))
             }
           }),
         }}

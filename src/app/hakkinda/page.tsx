@@ -47,7 +47,7 @@ export default function Page() {
             Hakkında
           </h1>
           <p className="mx-auto mt-3 max-w-2xl text-balance text-sm text-black/70 dark:text-white/70 sm:text-base">
-            Yurt menülerini şehir ve öğün bazında kolayca keşfetmeni sağlayan bağımsız bir projeyiz.
+            KYK Yemek Liste, Türkiye genelindeki KYK yurtlarının aylık yemek menülerini kolayca görüntüleyebileceğiniz ücretsiz bir platformdur. Öğrencilerin yurt yemeklerini önceden görerek günlerini planlamalarına yardımcı olmayı amaçlıyoruz.
           </p>
         </div>
 
@@ -57,15 +57,45 @@ export default function Page() {
             <div>
               <h2 className="text-xl font-semibold text-black dark:text-white">Misyon</h2>
               <p className="mt-2 leading-relaxed text-black/70 dark:text-white/70">
-                Öğrencilerin günlük menülere hızlı erişmesini sağlamak, beslenme takibiyle
-                bilinçli seçimleri desteklemek.
+                KYK yurtlarında kalan milyonlarca öğrencinin günlük menülere hızlı ve kolay erişimini sağlamak, 
+                beslenme planlamalarını kolaylaştırmak ve yemek tercihlerini önceden görmelerini sağlamak. 
+                Öğrenci dostu, hızlı ve mobil uyumlu bir platform sunmak temel misyonumuzdur.
+              </p>
+            </div>
+
+            <div>
+              <h2 className="text-xl font-semibold text-black dark:text-white">Vizyon</h2>
+              <p className="mt-2 leading-relaxed text-black/70 dark:text-white/70">
+                Türkiye&apos;nin en kapsamlı ve güncel KYK yurt menü platformu olmak. Öğrencilere sadece menü 
+                bilgisi sunmakla kalmayıp, beslenme tavsiyeleri, besin değerleri ve yurt yaşamını 
+                kolaylaştıracak diğer hizmetleri de sağlamak.
+              </p>
+            </div>
+
+            <div>
+              <h2 className="text-xl font-semibold text-black dark:text-white">Projemizin Hikayesi</h2>
+              <p className="mt-2 leading-relaxed text-black/70 dark:text-white/70">
+                KYK Yemek Liste, yurtta kalan bir öğrenci tarafından geliştirilmeye başlandı. 
+                Günlük menülere ulaşmanın zorluğunu yaşayan öğrencilerin ihtiyacından doğdu. 
+                Bugün binlerce öğrenciye hizmet veren bağımsız bir platform haline geldi.
               </p>
             </div>
 
             <div>
               <h2 className="text-xl font-semibold text-black dark:text-white">İçerik Kaynağı</h2>
               <p className="mt-2 leading-relaxed text-black/70 dark:text-white/70">
-                Veriler kamuya açık kaynaklardan derlenir. Hatalı bilgi görürseniz lütfen bize yazın.
+                Menü bilgileri KYK&apos;nın resmi kaynaklarından ve yurt idarelerinden düzenli olarak güncellenir. 
+                Verilerimiz doğruluk ve güncellik açısından sürekli kontrol edilir. Hatalı veya eksik bilgi 
+                görürseniz lütfen bize bildirin, en kısa sürede düzeltelim.
+              </p>
+            </div>
+
+            <div>
+              <h2 className="text-xl font-semibold text-black dark:text-white">Gizlilik ve Güvenlik</h2>
+              <p className="mt-2 leading-relaxed text-black/70 dark:text-white/70">
+                Sitemizde kişisel bilgi toplamıyoruz. Sadece şehir tercihiniz tarayıcınızda saklanır. 
+                Üçüncü parti reklam ağları kullanıyoruz ancak kişisel verileriniz asla paylaşılmaz. 
+                Daha fazla bilgi için <Link href="/gizlilik-politikasi" className="text-[#69C2D3] hover:underline">gizlilik politikamızı</Link> inceleyebilirsiniz.
               </p>
             </div>
 
@@ -93,8 +123,8 @@ export default function Page() {
             {/* Küçük istatistikler (dummy; hazır dursa hoş görünür) */}
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
               {[
-                { k: "Şehir", v: "81+" },
-                { k: "Öğün", v: "3" },
+                { k: "Şehir", v: "Çoklu" },
+                { k: "Öğün", v: "2" },
                 { k: "Hızlı yükleme", v: "<1 sn" },
                 { k: "Mobil uyum", v: "Evet" },
               ].map((s) => (

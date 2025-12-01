@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getCities, getMenu, type City, type MenuItem } from "@/lib/api";
+import { getCities } from "@/lib/api";
 import { mealSlugToType, humanMeal, slugifyCity } from "@/lib/seo-maps";
-"use client";
-
-import { useState, useEffect } from "react";
+import CityMenuPage from "./CityMenuPage";
 
 export const revalidate = 3600;   // içerik günlük -> 1 saat iyi
 
@@ -12,6 +10,21 @@ export const revalidate = 3600;   // içerik günlük -> 1 saat iyi
 
 type Params = Promise<{ city: string; meal: string }>;
 type SearchParams = Promise<{ d?: string | string[] }>;
+
+// ── Static params generation for all city/meal combinations
+export async function generateStaticParams() {
+  const cities = await getCities();
+  const params: { city: string; meal: string }[] = [];
+  
+  cities.forEach(city => {
+    const citySlug = slugifyCity(city.name);
+    // Her şehir için kahvalti ve aksam sayfaları oluştur
+    params.push({ city: citySlug, meal: "kahvalti" });
+    params.push({ city: citySlug, meal: "aksam" });
+  });
+  
+  return params;
+}
 
 
 
@@ -30,21 +43,44 @@ export async function generateMetadata(
   if (!city || mType === undefined) return {};
 
   const mealTR = humanMeal(mealSlug);
-  const title = `${city.name} KYK ${mealTR} Menüsü (Bugün)`;
-  const desc  = `${city.name} KYK yurtları ${mealTR.toLowerCase()} menüsü: çorba, ana yemek, yardımcılar ve tatlılar. Günlük güncellenir.`;
+  const title = `${city.name} KYK ${mealTR} Menüsü - Güncel Yurt Yemekleri`;
+  const desc  = `${city.name} KYK yurtları ${mealTR.toLowerCase()} menüsü. Güncel yurt yemek listesi, çorba, ana yemek ve yan ürünler. Aylık menü bilgileri.`;
 
   return {
     metadataBase: new URL("https://kykyemekliste.com"),
     title,
     description: desc,
     alternates: { canonical: `/${citySlug}/${mealSlug}` },
+    keywords: [
+      `${city.name} KYK yurt menüsü`,
+      `${city.name} yurt ${mealSlug}`,
+      `KYK ${city.name} yemek listesi`,
+      `${city.name} öğrenci yurdu menü`,
+      `KYK ${mealTR} menüsü`,
+      `yurt yemekleri ${city.name}`,
+    ],
     openGraph: {
       title,
       description: desc,
       url: `https://kykyemekliste.com/${citySlug}/${mealSlug}`,
-      type: "article",
+      type: "website",
+      siteName: "KYK Yemek Liste",
+      locale: "tr_TR",
     },
-    twitter: { card: "summary_large_image", title, description: desc },
+    twitter: { 
+      card: "summary_large_image", 
+      title, 
+      description: desc,
+      site: "@kykyemekliste"
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+      },
+    },
   };
 }
 
@@ -52,7 +88,6 @@ export async function generateMetadata(
 export default async function Page(props: { params: Params; searchParams: SearchParams }) {
   // ✅ params ve searchParams'ı await et
   const { city: citySlug, meal: mealSlug } = await props.params;
-  const sp = await props.searchParams;
 
   const cities = await getCities();
   const withSlug = cities.map(c => ({ ...c, slug: slugifyCity(c.name) }));
@@ -60,61 +95,6 @@ export default async function Page(props: { params: Params; searchParams: Search
   const mType = mealSlugToType[mealSlug];
   if (!city || mType === undefined) return notFound();
 
-  // ✅ d parametresi dizi gelebilir → normalize et
-  const dParam = Array.isArray(sp.d) ? sp.d[0] : sp.d;
-  const dateISO = dParam && dParam.trim().length ? dParam : undefined;
-
-  const menu = await getMenu(city.id, mType, dateISO);
-  const dateLabel = dateISO ?? new Date().toISOString().split("T")[0];
-
-  return (
-    <main className="max-w-4xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-2">
-        {city.name} KYK {humanMeal(mealSlug)} Menüsü
-      </h1>
-      <p className="text-sm text-gray-600 mb-6">Tarih: {dateLabel}</p>
-
-      <ul className="space-y-3">
-        {menu?.length
-          ? menu.map((it: MenuItem, i: number) => (
-              <li key={i} className="p-4 rounded-lg border">
-                <div className="font-medium">{it.name}</div>
-                {"description" in it && it.description ? (
-                  <div className="text-sm text-gray-600">{it.description}</div>
-                ) : null}
-              </li>
-            ))
-          : <li className="text-gray-500">Bugün için menü bulunamadı.</li>}
-      </ul>
-
-      {/* JSON-LD: WebPage + Breadcrumb + ItemList */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "WebPage",
-            "name": `${city.name} KYK ${mealSlug} menüsü`,
-            "breadcrumb": {
-              "@type": "BreadcrumbList",
-              "itemListElement": [
-                { "@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "https://kykyemekliste.com" },
-                { "@type": "ListItem", "position": 2, "name": city.name, "item": `https://kykyemekliste.com/${citySlug}` },
-                { "@type": "ListItem", "position": 3, "name": humanMeal(mealSlug) }
-              ]
-            },
-            "mainEntity": {
-              "@type": "ItemList",
-              "itemListElement": (menu ?? []).map((m: MenuItem, idx: number) => ({
-                "@type": "MenuItem",
-                "position": idx + 1,
-                "name": m.name,
-                ...( "description" in m && m.description ? { "description": m.description } : {})
-              }))
-            }
-          })
-        }}
-      />
-    </main>
-  );
+  // Key ile component'i force re-render yap
+  return <CityMenuPage key={`${citySlug}-${mealSlug}`} initialCitySlug={citySlug} initialMealType={mType} />;
 }
