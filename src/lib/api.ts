@@ -11,10 +11,15 @@ export type ApiFetchInit = Omit<RequestInit, "headers"> & {
 const RAW_BASE = (process.env.NEXT_PUBLIC_API_BASE ?? "").trim();
 const API_BASE = /^https?:\/\//i.test(RAW_BASE) ? RAW_BASE.replace(/\/+$/, "") : "";
 
+// During build (SSG), use localhost:5181 if no API_BASE is set
+const BUILD_TIME_BASE = typeof window === "undefined" && !API_BASE 
+  ? "http://localhost:5181" 
+  : API_BASE;
+
 function buildUrl(path: string) {
   const cleanPath = `/${path.replace(/^\/+/, "")}`;
-  const combined = `${API_BASE}${cleanPath}`.replace(/\/api\/api\//g, "/api/");
-  return API_BASE ? combined : cleanPath;
+  const combined = `${BUILD_TIME_BASE}${cleanPath}`.replace(/\/api\/api\//g, "/api/");
+  return BUILD_TIME_BASE ? combined : cleanPath;
 }
 
 export async function apiFetch(path: string, init: ApiFetchInit = {}) {
