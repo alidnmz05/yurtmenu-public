@@ -1,12 +1,20 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // 📁 /components/CitySelect.tsx
-// Şehir seçimi – ilk şehri otomatik seçer
+// Şehir seçimi – 81 il gösterir, API'de olmayanlar için bilgi verir
 // ─────────────────────────────────────────────────────────────────────────────
 "use client";
 import { useEffect, useState } from "react";
 import { apiFetch } from "@/lib/api";
+import { ALL_CITIES_TR, slugifyCity } from "@/lib/seo-maps";
 
 const STORAGE_KEY = "yurtmenu_city_id";
+
+type CityOption = {
+  id: number;
+  name: string;
+  slug: string;
+  available: boolean;
+};
 
 export default function CitySelect({
 value,
@@ -17,22 +25,36 @@ value: number;
 onChange: (v: number) => void;
 disableAutoSelect?: boolean;
 }) {
-const [cities, setCities] = useState<{ id: number; name: string }[]>([]);
+const [cities, setCities] = useState<CityOption[]>([]);
 const [initialized, setInitialized] = useState(false);
 
 
 useEffect(() => {
 const run = async () => {
 try {
-const res = await apiFetch("/api/city");
-const data = await res.json();
-setCities(data ?? []);
-if ((data?.length ?? 0) > 0 && !initialized && !disableAutoSelect) {
+      const res = await apiFetch("/api/city");
+      const apiCities = await res.json();
+      const apiCityNames = new Map(apiCities.map((c: {id: number, name: string}) => [c.name, c.id]));
+
+      // 81 ili oluştur - API'de olanlar ID'siyle, olmayanlar geçici negatif ID'yle
+      const allCities: CityOption[] = ALL_CITIES_TR.map((cityName, index) => {
+        const apiId = apiCityNames.get(cityName);
+        return {
+          id: (apiId !== undefined ? apiId : -(index + 1)) as number,
+          name: cityName,
+          slug: slugifyCity(cityName),
+          available: apiId !== undefined,
+        };
+      });setCities(allCities);
+
+if (allCities.length > 0 && !initialized && !disableAutoSelect) {
 // localStorage'dan kaydedilmiş şehri yükle
 const saved = localStorage.getItem(STORAGE_KEY);
 const savedId = saved ? parseInt(saved, 10) : null;
-const cityExists = savedId && data.some((c: {id: number}) => c.id === savedId);
-onChange(cityExists ? savedId : data[0].id);
+const cityExists = savedId && allCities.some((c) => c.id === savedId && c.available);
+// İlk available şehri bul
+const firstAvailable = allCities.find(c => c.available);
+onChange(cityExists ? savedId : (firstAvailable?.id ?? allCities[0].id));
 setInitialized(true);
 } else if (disableAutoSelect && !initialized) {
 setInitialized(true);
@@ -52,8 +74,11 @@ return (
 value={value}
 onChange={(e) => {
 const newId = Number(e.target.value);
-localStorage.setItem(STORAGE_KEY, String(newId));
-onChange(newId);
+const selectedCity = cities.find(c => c.id === newId);
+if (selectedCity) {
+  localStorage.setItem(STORAGE_KEY, String(newId));
+  onChange(newId);
+}
 }}
 className="p-2 rounded-lg border border-gray-300 bg-white text-sm focus:ring-2 focus:ring-orange-400 transition duration-200"
 >

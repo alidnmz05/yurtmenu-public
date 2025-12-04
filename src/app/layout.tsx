@@ -4,16 +4,19 @@ import type { Metadata, Viewport } from "next";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://kykyemekliste.com"),
-  title: { default: "KYK Yemek Listesi", template: "%s | Yurt Menü" },
+  title: { default: "KYK Yemek Listesi - 81 İl Güncel Yurt Menüleri", template: "%s | KYK Yemek Liste" },
   description:
-    "KYK yurtlarının aylık yemek menüsü. Şehre ve öğüne göre sabah ve akşam menülerini hızlıca görüntüleyin.",
+    "Türkiye'nin 81 ilindeki KYK yurtlarının güncel yemek menüleri. Kahvaltı ve akşam yemeği listelerini görüntüleyin. Günlük güncellenen menüler, beslenme bilgileri ve kalori değerleri.",
   keywords: [
-    "KYK","yemek listesi","yurt menü","KYK yemek","KYK menü",
-    "sabah yemeği","akşam yemeği","öğrenci yurdu","yemek menüsü",
-    "KYK yurtları","yurt yemek listesi","günlük menü","aylık menü",
-    "istanbul KYK menü","ankara KYK menü","izmir KYK menü",
+    "KYK yemek listesi","KYK menü","yurt yemekleri","KYK kahvaltı menüsü","KYK akşam menüsü",
+    "öğrenci yurdu menü","günlük yemek listesi","aylık yurt menüsü","KYK beslenme",
+    "istanbul KYK menü","ankara KYK yemek","izmir yurt menüsü","bursa KYK","antalya yurt",
+    "KYK yurtları yemek listesi","yurt sabah kahvaltısı","yurt akşam yemeği","öğrenci menüsü",
+    "KYK günlük menü","yurt beslenme programı","kredi yurtlar kurumu menü","devlet yurdu menü",
+    "kyk menü 2024","kyk menü 2025","öğrenci yurdu yemekleri","yurt yemek çeşitleri",
+    "kalori değerleri","beslenme bilgisi","sağlıklı yurt menüsü","dengeli beslenme KYK",
   ],
-  applicationName: "Yurt Menü",
+  applicationName: "KYK Yemek Liste",
   category: "Food & Drink",
   alternates: { canonical: "/" },
   openGraph: {
