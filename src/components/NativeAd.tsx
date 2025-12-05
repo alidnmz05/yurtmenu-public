@@ -27,8 +27,9 @@ export default function NativeAd({
         
         // AdSense script'i yüklenmişse reklamı göster
         try {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({});
-        } catch (e) {
+        } catch {
           // Push hatası görmezden gel (development mode'da olabilir)
         }
       }
