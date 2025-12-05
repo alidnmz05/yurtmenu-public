@@ -17,9 +17,20 @@ export default function NativeAd({
 
   useEffect(() => {
     try {
-      if (adRef.current && typeof window !== 'undefined') {
+      const adElement = adRef.current;
+      if (adElement && typeof window !== 'undefined') {
+        // Eğer reklam zaten yüklenmişse (data-adsbygoogle-status var), işlem yapma
+        const adStatus = adElement.getAttribute('data-adsbygoogle-status');
+        if (adStatus === 'done') {
+          return;
+        }
+        
         // AdSense script'i yüklenmişse reklamı göster
-        ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({});
+        try {
+          ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({});
+        } catch (e) {
+          // Push hatası görmezden gel (development mode'da olabilir)
+        }
       }
     } catch (err) {
       console.error('AdSense error:', err);

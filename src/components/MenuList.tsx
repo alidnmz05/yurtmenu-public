@@ -133,11 +133,11 @@ export default function MenuList({ selectedDate, cityId, mealType }: Props) {
           })
           .map((m, index) => {
             const shouldShowAd = (index + 1) % 5 === 0; // Her 5. card'dan sonra reklam
+            const menuKey = m.id ?? `${m.date}-${m.cityId}-${m.mealType}`;
             
             return (
-              <>
+              <div key={`menu-wrapper-${menuKey}`} className="contents">
                 <div 
-                  key={m.id ?? `${m.date}-${m.cityId}-${m.mealType}`}
                   id={`menu-card-${m.date}`}
                   className={`transition-all duration-300 ${selectedDate === m.date ? 'ring-2 ring-[#98d2dd] ring-opacity-50' : ''}`}
                 >
@@ -146,10 +146,11 @@ export default function MenuList({ selectedDate, cityId, mealType }: Props) {
                 
                 {/* Her 5. menü kartından sonra native reklam */}
                 {shouldShowAd && (
-                  <div key={`ad-${index}`} className="md:col-span-2">
+                  <div className="md:col-span-2">
                     <div className="bg-gradient-to-br from-orange-50 to-yellow-50 rounded-3xl p-6 border border-orange-100">
                       <p className="text-xs text-gray-500 mb-2 text-center">Reklam</p>
                       <NativeAd 
+                        key={`ad-${index}`}
                         adSlot="4404020106"
                         adFormat="fluid"
                         className="min-h-[250px]"
@@ -157,7 +158,7 @@ export default function MenuList({ selectedDate, cityId, mealType }: Props) {
                     </div>
                   </div>
                 )}
-              </>
+              </div>
             );
           })}
       </div>
