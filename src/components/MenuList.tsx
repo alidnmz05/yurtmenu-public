@@ -4,6 +4,7 @@ import { apiFetch } from "@/lib/api";
 import type { MenuItem } from "@/types/menu";
 import MenuCard from "@/components/MenuCard";
 import Link from "next/link";
+import NativeAd from "@/components/NativeAd";
 
 type Props = {
   selectedDate: string;
@@ -38,30 +39,22 @@ export default function MenuList({ selectedDate, cityId, mealType }: Props) {
     run();
   }, [cityId, mealType]);
 
-  // Seçili tarihe otomatik kaydır - geliştirilmiş versiyon
-  useEffect(() => {
-    if (!selectedDate || menus.length === 0 || loading) return;
-    
-    // Menü yüklendikten sonra biraz bekle ve ardından kaydır
-    const timeoutId = setTimeout(() => {
-      const targetMenu = menus.find(menu => menu.date === selectedDate);
-      if (targetMenu) {
-        const element = document.getElementById(`menu-card-${selectedDate}`);
-        if (element) {
-          // Sayfa üstünden biraz offset ile kaydır
-          const headerHeight = 120; // Header + DatePicker yaklaşık yükseklik
-          const elementTop = element.offsetTop - headerHeight;
-          
-          window.scrollTo({
-            top: elementTop,
-            behavior: 'smooth'
-          });
-        }
-      }
-    }, 500); // Menüler render olduktan sonra kaydır
-
-    return () => clearTimeout(timeoutId);
-  }, [selectedDate, menus, loading]);
+  // Otomatik scroll kaldırıldı - kullanıcı manuel olarak seçsin
+  // useEffect(() => {
+  //   if (!selectedDate || menus.length === 0 || loading) return;
+  //   const timeoutId = setTimeout(() => {
+  //     const targetMenu = menus.find(menu => menu.date === selectedDate);
+  //     if (targetMenu) {
+  //       const element = document.getElementById(`menu-card-${selectedDate}`);
+  //       if (element) {
+  //         const headerHeight = 120;
+  //         const elementTop = element.offsetTop - headerHeight;
+  //         window.scrollTo({ top: elementTop, behavior: 'smooth' });
+  //       }
+  //     }
+  //   }, 500);
+  //   return () => clearTimeout(timeoutId);
+  // }, [selectedDate, menus, loading]);
 
   if (loading) {
     return (
@@ -138,15 +131,35 @@ export default function MenuList({ selectedDate, cityId, mealType }: Props) {
             return [m.first, m.second, m.third, m.fourth]
               .some(field => field && field.trim().length > 0);
           })
-          .map((m) => (
-            <div 
-              key={m.id ?? `${m.date}-${m.cityId}-${m.mealType}`}
-              id={`menu-card-${m.date}`}
-              className={`transition-all duration-300 ${selectedDate === m.date ? 'ring-2 ring-[#98d2dd] ring-opacity-50' : ''}`}
-            >
-              <MenuCard {...m} />
-            </div>
-          ))}
+          .map((m, index) => {
+            const shouldShowAd = (index + 1) % 5 === 0; // Her 5. card'dan sonra reklam
+            
+            return (
+              <>
+                <div 
+                  key={m.id ?? `${m.date}-${m.cityId}-${m.mealType}`}
+                  id={`menu-card-${m.date}`}
+                  className={`transition-all duration-300 ${selectedDate === m.date ? 'ring-2 ring-[#98d2dd] ring-opacity-50' : ''}`}
+                >
+                  <MenuCard {...m} />
+                </div>
+                
+                {/* Her 5. menü kartından sonra native reklam */}
+                {shouldShowAd && (
+                  <div key={`ad-${index}`} className="md:col-span-2">
+                    <div className="bg-gradient-to-br from-orange-50 to-yellow-50 rounded-3xl p-6 border border-orange-100">
+                      <p className="text-xs text-gray-500 mb-2 text-center">Reklam</p>
+                      <NativeAd 
+                        adSlot="4404020106"
+                        adFormat="fluid"
+                        className="min-h-[250px]"
+                      />
+                    </div>
+                  </div>
+                )}
+              </>
+            );
+          })}
       </div>
     </div>
   );
