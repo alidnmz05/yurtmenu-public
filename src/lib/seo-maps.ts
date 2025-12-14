@@ -1,9 +1,20 @@
 export const mealSlugToType: Record<string, number> = {
   kahvalti: 0,
-  ogle: 1,
-  aksam: 2,
+  sabah: 0,    // sabah da kahvaltı ile aynı
+  ogle: 1,     // öğle = akşam kategorisi
+  aksam: 1,    // akşam = akşam kategorisi
 };
-export const mealTypeToSlug = ["kahvalti", "ogle", "aksam"];
+export const mealTypeToSlug = ["kahvalti", "aksam"];  // API için varsayılan slug'lar
+
+// Switch için: sabah grubu (0) veya akşam grubu (1)
+export function mealTypeToSwitchValue(mealType: number): number {
+  return mealType === 0 ? 0 : 1;  // 0=sabah, 1=akşam
+}
+
+// Switch değerinden meal type'a
+export function switchValueToMealType(switchValue: number): number {
+  return switchValue === 0 ? 0 : 1;  // 0->sabah(0), 1->akşam(1)
+}
 
 // Türkiye'deki 81 il - API'de olmasa bile dropdown'da göstermek için
 export const ALL_CITIES_TR = [

@@ -1,6 +1,8 @@
-# 🍽️ KYK Yemek Liste - Türkiye Geneli 81 İl Yurt Menüleri
+# 🍽️ KYK Yemek Listesi - Türkiye Geneli 81 İl Yurt Menüleri
 
-**[kykyemekliste.com](https://kykyemekliste.com)** - KYK (Kredi ve Yurtlar Kurumu) yurtlarının güncel yemek menülerini görüntüleyin.
+**🔗 [kykyemekliste.com](https://kykyemekliste.com)** - KYK (Kredi ve Yurtlar Kurumu) yurtlarının güncel yemek listesi ve menülerini görüntüleyin.
+
+> ⭐ **Canlı Site**: https://kykyemekliste.com - Güncel yurt yemekleri ve menü takvimi
 
 ## 📋 Özellikler
 

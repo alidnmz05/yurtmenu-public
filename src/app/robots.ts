@@ -5,8 +5,17 @@ export default function robots(): MetadataRoute.Robots {
 
   return {
     rules: [
-      { userAgent: "*", allow: "/" },
-      { userAgent: "*", disallow: ["/api/", "/admin"] },
+      { 
+        userAgent: "*", 
+        allow: "/",
+        disallow: ["/api/", "/admin"],
+      },
+      {
+        userAgent: "Googlebot",
+        allow: "/",
+        disallow: ["/api/"],
+        crawlDelay: 0, // Hızlı crawl
+      }
     ],
     sitemap: `${base}/sitemap.xml`,
     host: base,

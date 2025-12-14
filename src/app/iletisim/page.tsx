@@ -1,6 +1,5 @@
 // app/iletisime/page.tsx
 import type { Metadata } from "next";
-import ContactForm from "@/components/ContactForm";
 
 export const metadata: Metadata = {
   title: "İletişime Geç | KYK Yemek Liste",

@@ -7,13 +7,13 @@ import { slugifyCity, mealTypeToSlug, ALL_CITIES_TR } from "@/lib/seo-maps";
 export const revalidate = 86400; // günlük yenile
 
 export const metadata: Metadata = {
-  title: "81 İl KYK Yurt Menüleri - Türkiye Geneli Yemek Listesi",
+  title: "KYK Yurt Menüleri - Türkiye Geneli Yemek Listesi",
   description:
-    "Türkiye'nin 81 ilindeki KYK yurtlarının güncel yemek menüleri. Şehrinizi seçerek sabah ve akşam yemek menülerine hızlıca ulaşın.",
+    "Türkiye genelindeki KYK yurtlarının güncel yemek menüleri. Şehrinizi seçerek sabah ve akşam yemek menülerine hızlıca ulaşın.",
   alternates: { canonical: "/sehirler" },
   openGraph: {
-    title: "81 İl KYK Yurt Menüleri",
-    description: "Türkiye genelindeki 81 il KYK yurt şehirleri ve güncel yemek menüleri",
+    title: "KYK Yurt Menüleri - Tüm Şehirler",
+    description: "Türkiye genelindeki KYK yurt şehirleri ve güncel yemek menüleri",
     url: "https://kykyemekliste.com/sehirler"
   }
 };
@@ -107,8 +107,8 @@ export default async function Page() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "CollectionPage",
-            "name": "KYK Yurt Menü – 81 İl",
-            "description": "Türkiye'nin 81 ilindeki KYK yurtlarının güncel yemek menüleri",
+            "name": "KYK Yurt Menüleri – Tüm Şehirler",
+            "description": "Türkiye genelindeki KYK yurtlarının güncel yemek menüleri",
             "url": "https://kykyemekliste.com/sehirler",
             "breadcrumb": {
               "@type": "BreadcrumbList",

@@ -32,7 +32,7 @@ export default function Page() {
       <header className="bg-gradient-to-r from-[hsl(var(--brand-300))] via-[hsl(var(--brand-400))] to-[hsl(var(--brand-500))] shadow-lg sticky top-0 z-50">
         <div className="max-w-5xl mx-auto px-6 py-5 flex flex-col sm:flex-row justify-between items-center gap-4">
           <h1 className="text-4xl font-extrabold tracking-tight drop-shadow-sm text-white">
-            🍽️ KYK Yemek Liste
+            🍽️ KYK Yemek Listesi
           </h1>
           <CitySelect value={cityId} onChange={setCityId} disableAutoSelect={false} />
         </div>
@@ -47,33 +47,34 @@ export default function Page() {
         {/* SEO İçerik Bölümü */}
         <section className="mb-8 mt-6 text-center">
           <h2 className="text-2xl font-bold text-gray-800 mb-3">
-            Türkiye Geneli 81 İl KYK Yurt Menüleri
+            KYK Yemek Listesi Bugün Ne Var?
           </h2>
           <p className="text-gray-600 max-w-3xl mx-auto mb-4">
-            Kredi ve Yurtlar Kurumu (KYK) yurtlarının güncel yemek listelerini görüntüleyin. 
-            Kahvaltı ve akşam yemeği menülerini şehir bazında takip edebilir, 
-            günlük beslenme programınızı planlayabilirsiniz.
+            <strong>KYK yemek listesi</strong> ve güncel <strong>yurt menüsü</strong> 2025. 
+            Kredi ve Yurtlar Kurumu yurtlarının kahvaltı ve akşam yemeği listelerini 
+            şehir bazında görüntüleyin. İstanbul, Ankara, İzmir başta olmak üzere 
+            81 ildeki yurt yemekleri için tarih ve öğün seçerek beslenme programınızı planlayın.
           </p>
           <div className="flex flex-wrap justify-center gap-4 text-sm text-gray-700">
             <div className="flex items-center gap-2">
               <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
               </svg>
-              <span>Günlük Güncellenir</span>
+              <span>Aylık güncellenir</span>
             </div>
             <div className="flex items-center gap-2">
               <svg className="w-5 h-5 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
                 <path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd"/>
               </svg>
-              <span>81 İl Kapsamı</span>
+              <span>81 il yurt menüsü</span>
             </div>
             <div className="flex items-center gap-2">
               <svg className="w-5 h-5 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
                 <path fillRule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clipRule="evenodd"/>
               </svg>
-              <span>Beslenme Bilgileri</span>
+              <span>Kahvaltı & Akşam</span>
             </div>
           </div>
         </section>
@@ -99,32 +100,28 @@ export default function Page() {
             <div>
               <h4 className="font-semibold text-gray-800 mb-2">📍 Türkiye Geneli KYK Yurtları</h4>
               <p className="leading-relaxed mb-3">
-                Türkiye&apos;nin 81 ilindeki KYK yurtlarının güncel menülerini takip edebilirsiniz. 
-                Marmara Bölgesi&apos;nden İstanbul, Bursa, Kocaeli, Tekirdağ, Edirne, Kırklareli, Balıkesir, Çanakkale, Yalova; 
-                Ege Bölgesi&apos;nden İzmir, Manisa, Aydın, Denizli, Muğla, Uşak, Afyonkarahisar; 
-                İç Anadolu&apos;dan Ankara, Konya, Kayseri, Eskişehir, Sivas, Yozgat, Kırıkkale, Kırşehir, Niğde, Nevşehir, Aksaray, Karaman; 
-                Akdeniz&apos;den Antalya, Mersin, Adana, Hatay, Kahramanmaraş, Osmaniye, Isparta, Burdur; 
-                Karadeniz&apos;den Samsun, Trabzon, Ordu, Giresun, Rize, Artvin, Gümüşhane, Bayburt, Tokat, Çorum, Amasya, Sinop, Kastamonu, Bartın, Karabük, Zonguldak, Düzce; 
-                Doğu Anadolu&apos;dan Erzurum, Erzincan, Ağrı, Kars, Iğdır, Ardahan, Van, Muş, Bitlis, Hakkari, Elazığ, Tunceli, Bingöl, Malatya; 
-                Güneydoğu Anadolu&apos;dan Gaziantep, Şanlıurfa, Diyarbakır, Mardin, Batman, Şırnak, Siirt, Kilis olmak üzere 
-                tüm illerdeki yurt menülerini görüntüleyebilirsiniz.
+                Türkiye&apos;nin birçok ilindeki KYK yurtlarının menülerini takip edebilirsiniz. 
+                İstanbul, Ankara, İzmir, Bursa, Antalya, Konya, Adana başta olmak üzere 
+                Marmara, Ege, İç Anadolu, Akdeniz, Karadeniz, Doğu ve Güneydoğu Anadolu bölgelerinden 
+                çok sayıda şehrin yurt menüleri sitemizde yer almaktadır.
               </p>
               <p className="text-xs text-gray-500">
-                * Menüsü henüz eklenmemiş şehirler için bilgi paylaşabilirsiniz.
+                * Menü veritabanımız sürekli güncellenmektedir. Şehrinizin menüsü yoksa bizimle iletişime geçebilirsiniz.
               </p>
             </div>
             <div>
               <h4 className="font-semibold text-gray-800 mb-2">⏰ Güncelleme Sıklığı</h4>
               <p className="leading-relaxed">
-                Yemek menüleri her ay düzenli olarak güncellenir. Günlük menü değişikliklerini 
-                ve haftalık programları sitemizden anlık olarak takip edebilirsiniz.
+                Yemek menüleri mümkün olduğunca güncel tutulmaya çalışılır. 
+                Yurtlardan gelen günlük ve haftalık menü bilgileri sitemize düzenli olarak eklenmektedir.
               </p>
             </div>
             <div>
-              <h4 className="font-semibold text-gray-800 mb-2">💪 Beslenme Değerleri</h4>
+              <h4 className="font-semibold text-gray-800 mb-2">💪 Öğrenci Dostu Platform</h4>
               <p className="leading-relaxed">
-                Menülerde yer alan yemeklerin kalori, protein, karbonhidrat ve yağ değerleri 
-                belirtilir. Öğrenciler günlük beslenme ihtiyaçlarını kolayca planlayabilir.
+                Platformumuz öğrencilerin yurt yemek menülerini kolayca takip edebilmeleri için 
+                tasarlanmıştır. Günlük kahvaltı ve akşam yemeği menülerini önceden görerek 
+                planlama yapabilirsiniz.
               </p>
             </div>
           </div>
@@ -194,8 +191,8 @@ export default function Page() {
             "@type": "WebPage",
             "@id": "https://kykyemekliste.com/#webpage",
             "url": "https://kykyemekliste.com",
-            "name": "KYK Yemek Listesi - 81 İl Güncel Yurt Menüleri",
-            "description": "Türkiye'nin 81 ilindeki KYK yurtlarının güncel yemek menüleri. Kahvaltı ve akşam yemeği listelerini görüntüleyin.",
+            "name": "KYK Yemek Listesi - Güncel Yurt Menüleri",
+            "description": "Türkiye genelindeki KYK yurtlarının güncel yemek menüleri. Kahvaltı ve akşam yemeği listelerini görüntüleyin.",
             "inLanguage": "tr-TR",
             "isPartOf": { "@id": "https://kykyemekliste.com/#website" },
             "about": {

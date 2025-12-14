@@ -10,14 +10,16 @@ export const revalidate = 3600;   // içerik günlük -> 1 saat iyi
 type Params = Promise<{ city: string; meal: string }>;
 type SearchParams = Promise<{ d?: string | string[] }>;
 
-// ── Static params generation for all 81 cities and 3 meal types
+// ── Static params generation for all 81 cities and meal types
 export async function generateStaticParams() {
   const params: { city: string; meal: string }[] = [];
   
-  // 81 il × 2 öğün (kahvaltı, akşam) = 162 sayfa
+  // 81 il × 4 öğün URL'i (kahvalti, sabah, ogle, aksam)
   ALL_CITIES_TR.forEach(cityName => {
     const citySlug = slugifyCity(cityName);
     params.push({ city: citySlug, meal: "kahvalti" });
+    params.push({ city: citySlug, meal: "sabah" });
+    params.push({ city: citySlug, meal: "ogle" });
     params.push({ city: citySlug, meal: "aksam" });
   });
   

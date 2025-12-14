@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { apiFetch } from "@/lib/api";
-import { slugifyCity, mealTypeToSlug, ALL_CITIES_TR } from "@/lib/seo-maps";
+import { slugifyCity, mealTypeToSlug, ALL_CITIES_TR, mealTypeToSwitchValue, switchValueToMealType } from "@/lib/seo-maps";
 import CitySelect from "@/components/CitySelect";
 import MealTypeSwitch from "@/components/MealTypeSwitch";
 import DatePickerHorizontal from "@/components/DatePickerHorizontal";
@@ -23,6 +23,7 @@ export default function CityMenuPage({
   const [cities, setCities] = useState<City[]>([]);
   const [currentCity, setCurrentCity] = useState<City | null>(null);
   const [mealType, setMealType] = useState(initialMealType);
+  const [switchValue, setSwitchValue] = useState(mealTypeToSwitchValue(initialMealType));
   const [cityAvailable, setCityAvailable] = useState(true); // API'de var mı?
   const today = new Date();
   const [selectedDate, setSelectedDate] = useState(today.toISOString().split("T")[0]);
@@ -60,9 +61,10 @@ export default function CityMenuPage({
     fetchCities();
   }, [initialCitySlug]);
 
-  // URL değiştiğinde mealType'ı güncelle
+  // URL değiştiğinde mealType ve switchValue'yu güncelle
   useEffect(() => {
     setMealType(initialMealType);
+    setSwitchValue(mealTypeToSwitchValue(initialMealType));
   }, [initialMealType]);
 
   // Şehir değiştiğinde URL'yi güncelle
@@ -74,9 +76,11 @@ export default function CityMenuPage({
     }
   };
 
-  // Öğün tipi değiştiğinde URL'yi güncelle
-  const handleMealTypeChange = (newMealType: number) => {
+  // Switch değiştiğinde URL'yi güncelle (0=sabah, 1=akşam)
+  const handleMealTypeChange = (newSwitchValue: number) => {
     if (currentCity) {
+      // Switch değerinden meal type'a çevir
+      const newMealType = switchValueToMealType(newSwitchValue);
       const mealSlug = mealTypeToSlug[newMealType];
       router.push(`/${currentCity.slug}/${mealSlug}`);
     }
@@ -106,7 +110,7 @@ export default function CityMenuPage({
 
       <DatePickerHorizontal selectedDate={selectedDate} onSelect={setSelectedDate} />
 
-      <MealTypeSwitch value={mealType} onChange={handleMealTypeChange} />
+      <MealTypeSwitch value={switchValue} onChange={handleMealTypeChange} />
 
       {/* İçerik */}
       <main className="max-w-6xl mx-auto px-4 pb-10">

@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { apiFetch } from "@/lib/api";
 import type { MenuItem } from "@/types/menu";
 import MenuCard from "@/components/MenuCard";
-import Link from "next/link";
 import NativeAd from "@/components/NativeAd";
 
 type Props = {
@@ -95,25 +94,16 @@ export default function MenuList({ selectedDate, cityId, mealType }: Props) {
                 Seçtiğiniz tarih, şehir veya öğün için henüz menü bilgisi sistemimizde bulunmuyor. 
                 Eğer bu menüye sahipseniz, bizimle paylaşabilirsiniz!
               </p>
-              <div className="mt-4 flex gap-3">
+              <div className="mt-4">
                 <a 
-                  href="mailto:info@kykyemekliste.com?subject=KYK%20Men%C3%BC%20Bilgisi&body=Merhaba%2C%0A%0AKYK%20yurt%20men%C3%BC%20bilgisi%20payla%C5%9Fmak%20istiyorum.%0A%0A%C5%9Eehir%3A%20%0AYurt%20Ad%C4%B1%3A%20%0ATarih%3A%20%0A%C3%96%C4%9F%C3%BCn%3A%20"
+                  href="mailto:kykyemekliste@gmail.com?subject=KYK%20Men%C3%BC%20Bilgisi&body=Merhaba%2C%0A%0AKYK%20yurt%20men%C3%BC%20bilgisi%20payla%C5%9Fmak%20istiyorum.%0A%0A%C5%9Eehir%3A%20%0AYurt%20Ad%C4%B1%3A%20%0ATarih%3A%20%0A%C3%96%C4%9F%C3%BCn%3A%20"
                   className="inline-flex items-center px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-white rounded-lg transition-colors text-sm font-medium"
                 >
                   <svg className="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
-                  Menü Gönder
+                  kykyemekliste@gmail.com
                 </a>
-                <Link 
-                  href="/iletisim" 
-                  className="inline-flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors text-sm font-medium"
-                >
-                  <svg className="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-                  </svg>
-                  İletişim Formu
-                </Link>
               </div>
             </div>
           </div>
