@@ -8,6 +8,7 @@ import CitySelect from "@/components/CitySelect";
 import MealTypeSwitch from "@/components/MealTypeSwitch";
 import DatePickerHorizontal from "@/components/DatePickerHorizontal";
 import MenuList from "@/components/MenuList";
+import Footer from "@/components/Footer";
 import Link from "next/link";
 
 type City = { id: number; name: string; slug: string };
@@ -173,31 +174,46 @@ export default function CityMenuPage({
             mealType={mealType}
           />
         )}
+
+        {/* Hyper-Local FAQ Section */}
+        {cityAvailable && (
+          <section className="mt-12 bg-white border border-blue-100 rounded-xl p-6 md:p-8 shadow-sm">
+            <h2 className="text-xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+              <svg className="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              Sıkça Sorulan Sorular ({currentCity.name})
+            </h2>
+            <div className="space-y-4">
+              <details className="group border-b border-gray-100 pb-4">
+                <summary className="flex justify-between items-center font-semibold cursor-pointer list-none text-gray-700 hover:text-blue-600 transition-colors">
+                  <span>{currentCity.name} KYK yurtlarında {mealType === 0 ? "kahvaltı" : "akşam yemeği"} saat kaçta başlıyor?</span>
+                  <span className="transition group-open:rotate-180">
+                    <svg fill="none" height="24" shapeRendering="geometricPrecision" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
+                  </span>
+                </summary>
+                <p className="text-gray-600 mt-3 text-sm leading-relaxed">
+                  KYK yurtlarında genellikle kahvaltı 06:30 - 12:00, akşam yemeği ise 16:00 - 22:30 saatleri arasında servis edilmektedir. Saatler yurttan yurda küçük değişiklikler gösterebilir.
+                </p>
+              </details>
+              <details className="group pb-2">
+                <summary className="flex justify-between items-center font-semibold cursor-pointer list-none text-gray-700 hover:text-blue-600 transition-colors">
+                  <span>{currentCity.name} KYK {mealType === 0 ? "kahvaltı" : "akşam yemeği"} menüsü ne zaman güncellenir?</span>
+                  <span className="transition group-open:rotate-180">
+                    <svg fill="none" height="24" shapeRendering="geometricPrecision" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
+                  </span>
+                </summary>
+                <p className="text-gray-600 mt-3 text-sm leading-relaxed">
+                  Yemek menüleri aylık olarak KYK idareleri tarafından belirlenir ve sistemimize düzenli olarak eklenir. Güncel ayın menüsünü sayfamızdan günlük takip edebilirsiniz.
+                </p>
+              </details>
+            </div>
+          </section>
+        )}
       </main>
       
       {/* Footer */}
-      <footer className="border-t mt-10">
-        <div className="max-w-6xl mx-auto px-4 py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-600">
-          <p>© {new Date().getFullYear()} KYK Yemek Liste</p>
-          <nav className="flex flex-wrap gap-4 justify-center">
-            <Link href="/hakkinda" className="hover:underline">
-              Hakkında
-            </Link>
-            <Link href="/rehber" className="hover:underline">
-              Rehber
-            </Link>
-            <Link href="/sss" className="hover:underline">
-              SSS
-            </Link>
-            <Link href="/iletisim" className="hover:underline">
-              İletişim
-            </Link>
-            <Link href="/gizlilik-politikasi" className="hover:underline">
-              Gizlilik Politikası
-            </Link>
-          </nav>
-        </div>
-      </footer>
+      <Footer />
 
       {/* Varsayılan SKY paleti */}
       <style jsx global>{`

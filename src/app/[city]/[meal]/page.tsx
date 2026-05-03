@@ -40,8 +40,12 @@ export async function generateMetadata(
   if (!cityName || mType === undefined) return {};
 
   const mealTR = humanMeal(mealSlug);
-  const title = `${cityName} KYK ${mealTR} Menüsü - Güncel Yurt Yemekleri`;
-  const desc  = `${cityName} KYK yurtları ${mealTR.toLowerCase()} menüsü. Güncel yurt yemek listesi, çorba, ana yemek ve yan ürünler. Aylık menü bilgileri.`;
+  const now = new Date();
+  const monthsTR = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
+  const monthStr = `${monthsTR[now.getMonth()]} ${now.getFullYear()}`;
+
+  const title = `${cityName} KYK ${mealTR} Menüsü (${monthStr}) - Güncel Yurt Yemekleri`;
+  const desc  = `${cityName} KYK yurtları ${mealTR.toLowerCase()} menüsü (${monthStr}). Güncel yurt yemek listesi, çorba, ana yemek ve yan ürünler. Aylık menü bilgileri.`;
 
   const canonicalSlug = mealTypeToSlug[mType];
 
@@ -111,12 +115,35 @@ export default async function Page(props: { params: Params; searchParams: Search
     }
   };
 
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": `${cityName} KYK yurtlarında ${mealTR.toLowerCase()} saat kaçta başlıyor?`,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "KYK yurtlarında genellikle kahvaltı 06:30 - 12:00, akşam yemeği ise 16:00 - 22:30 saatleri arasında servis edilmektedir. Saatler yurttan yurda küçük değişiklikler gösterebilir."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": `${cityName} KYK ${mealTR.toLowerCase()} menüsü ne zaman güncellenir?`,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yemek menüleri aylık olarak KYK idareleri tarafından belirlenir ve sistemimize düzenli olarak eklenir. Güncel ayın menüsünü sayfamızdan günlük takip edebilirsiniz."
+        }
+      }
+    ]
+  };
+
   // Key ile component'i force re-render yap
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify([jsonLd, faqLd]) }}
       />
       <CityMenuPage key={`${citySlug}-${mealSlug}`} initialCitySlug={citySlug} initialMealType={mType} />
     </>

@@ -5,6 +5,7 @@ import CitySelect from "@/components/CitySelect";
 import MealTypeSwitch from "@/components/MealTypeSwitch";
 import DatePickerHorizontal from "@/components/DatePickerHorizontal";
 import MenuList from "@/components/MenuList";
+import Footer from "@/components/Footer";
 import Link from "next/link";
 
 // Türkiye saatine göre öğün tipini belirle
@@ -144,28 +145,7 @@ export default function Page() {
       </main>
       
       {/* Footer */}
-      <footer className="border-t mt-10">
-        <div className="max-w-6xl mx-auto px-4 py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-600">
-          <p>© {new Date().getFullYear()} KYK Yemek Liste</p>
-          <nav className="flex flex-wrap gap-4 justify-center">
-            <Link href="/hakkinda" className="hover:underline">
-              Hakkında
-            </Link>
-            <Link href="/rehber" className="hover:underline">
-              Rehber
-            </Link>
-            <Link href="/sss" className="hover:underline">
-              SSS
-            </Link>
-            <Link href="/iletisim" className="hover:underline">
-              İletişim
-            </Link>
-            <Link href="/gizlilik-politikasi" className="hover:underline">
-              Gizlilik Politikası
-            </Link>
-          </nav>
-        </div>
-      </footer>
+      <Footer />
 
       {/* Varsayılan SKY paleti (isteğe bağlı): değişkenler tanımlı değilse çalışsın diye */}
       <style jsx global>{`
