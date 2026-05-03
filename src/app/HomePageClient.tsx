@@ -125,7 +125,7 @@ export default function HomePageClient() {
                 Marmara, Ege, İç Anadolu, Akdeniz, Karadeniz, Doğu ve Güneydoğu Anadolu bölgelerinden 
                 çok sayıda şehrin yurt menüleri sitemizde yer almaktadır.
               </p>
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-gray-600">
                 * Menü veritabanımız sürekli güncellenmektedir. Şehrinizin menüsü yoksa bizimle iletişime geçebilirsiniz.
               </p>
             </div>

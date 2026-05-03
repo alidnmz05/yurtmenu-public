@@ -58,7 +58,7 @@ export default function MenuList({ selectedDate, cityId, mealType }: Props) {
   if (loading) {
     return (
       <div className="mx-auto w-full max-w-screen-2xl px-4 sm:px-6 lg:px-8">
-        <p className="text-center text-gray-500 py-10">Yükleniyor...</p>
+        <p className="text-center text-gray-600 py-10">Yükleniyor...</p>
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 lg:gap-10 mt-6">
           {Array.from({ length: 6 }).map((_, i) => (
             <div key={i} className="w-full h-72 rounded-3xl animate-pulse bg-orange-100/60 border border-orange-200/60" />
@@ -138,7 +138,7 @@ export default function MenuList({ selectedDate, cityId, mealType }: Props) {
                 {shouldShowAd && (
                   <div className="md:col-span-2">
                     <div className="bg-gradient-to-br from-orange-50 to-yellow-50 rounded-3xl p-6 border border-orange-100">
-                      <p className="text-xs text-gray-500 mb-2 text-center">Reklam</p>
+                      <p className="text-xs text-gray-600 mb-2 text-center">Reklam</p>
                       <NativeAd 
                         key={`ad-${index}`}
                         adSlot="4404020106"

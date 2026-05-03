@@ -41,7 +41,7 @@ export default function Footer() {
         </div>
 
         {/* Links & Copyright */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-gray-200 text-sm text-gray-500">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-gray-200 text-sm text-gray-600">
           <p>© {new Date().getFullYear()} KYK Yemek Liste. Bağımsız öğrenci projesidir.</p>
           <nav className="flex flex-wrap gap-4 justify-center">
             <Link href="/hakkinda" className="hover:text-blue-600 hover:underline transition-colors">Hakkında</Link>

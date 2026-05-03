@@ -68,7 +68,7 @@ export default async function Page() {
                 </Link>
               </div>
             ) : (
-              <div className="text-xs text-gray-500 text-center py-2">
+              <div className="text-xs text-gray-600 text-center py-2">
                 📋 Menü henüz eklenmedi
               </div>
             )}
