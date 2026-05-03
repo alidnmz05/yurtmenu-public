@@ -100,9 +100,9 @@ export default function CityMenuPage({
       <header className="bg-gradient-to-r from-[hsl(var(--brand-300))] via-[hsl(var(--brand-400))] to-[hsl(var(--brand-500))] shadow-lg sticky top-0 z-50">
         <div className="max-w-5xl mx-auto px-6 py-5 flex flex-col sm:flex-row justify-between items-center gap-4">
           <Link href="/">
-            <h1 className="text-4xl font-extrabold tracking-tight drop-shadow-sm text-white cursor-pointer hover:opacity-90">
+            <span className="text-4xl font-extrabold tracking-tight drop-shadow-sm text-white cursor-pointer hover:opacity-90">
               🍽️ KYK Yemek Liste
-            </h1>
+            </span>
           </Link>
           <CitySelect value={currentCity.id} onChange={handleCityChange} disableAutoSelect />
         </div>
@@ -114,6 +114,18 @@ export default function CityMenuPage({
 
       {/* İçerik */}
       <main className="max-w-6xl mx-auto px-4 pb-10">
+        
+        {/* Local SEO Section */}
+        <section className="mb-8 mt-6 text-center">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-3">
+            {currentCity.name} KYK {mealType === 0 ? "Kahvaltı" : "Akşam"} Menüsü
+          </h1>
+          <p className="text-gray-600 max-w-3xl mx-auto text-sm sm:text-base">
+            Güncel <strong>{currentCity.name} KYK yurtları {mealType === 0 ? "kahvaltı" : "akşam yemeği"} listesi</strong>. 
+            Bu sayfada {currentCity.name} ilindeki tüm Kredi ve Yurtlar Kurumu (KYK) yurtlarında çıkan günlük ve aylık yemek menüsünü bulabilirsiniz.
+          </p>
+        </section>
+
         {!cityAvailable ? (
           <div className="bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded-lg my-8">
             <div className="flex items-start">

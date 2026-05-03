@@ -45,5 +45,6 @@ export function humanMeal(slug: string) {
 
 // Slug'dan şehir ismini bul
 export function findCityBySlug(slug: string): string | null {
-  return ALL_CITIES_TR.find(city => slugifyCity(city) === slug) || null;
+  const normalizedSlug = slug.toLowerCase();
+  return ALL_CITIES_TR.find(city => slugifyCity(city) === normalizedSlug) || null;
 }

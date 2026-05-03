@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { mealSlugToType, humanMeal, slugifyCity, ALL_CITIES_TR, findCityBySlug } from "@/lib/seo-maps";
+import { mealSlugToType, mealTypeToSlug, humanMeal, slugifyCity, ALL_CITIES_TR, findCityBySlug } from "@/lib/seo-maps";
 import CityMenuPage from "./CityMenuPage";
 
 export const revalidate = 3600;   // içerik günlük -> 1 saat iyi
@@ -43,11 +43,13 @@ export async function generateMetadata(
   const title = `${cityName} KYK ${mealTR} Menüsü - Güncel Yurt Yemekleri`;
   const desc  = `${cityName} KYK yurtları ${mealTR.toLowerCase()} menüsü. Güncel yurt yemek listesi, çorba, ana yemek ve yan ürünler. Aylık menü bilgileri.`;
 
+  const canonicalSlug = mealTypeToSlug[mType];
+
   return {
     metadataBase: new URL("https://kykyemekliste.com"),
     title,
     description: desc,
-    alternates: { canonical: `/${citySlug}/${mealSlug}` },
+    alternates: { canonical: `/${citySlug}/${canonicalSlug}` },
     keywords: [
       `${cityName} KYK yurt menüsü`,
       `${cityName} yurt ${mealSlug}`,
@@ -59,7 +61,7 @@ export async function generateMetadata(
     openGraph: {
       title,
       description: desc,
-      url: `https://kykyemekliste.com/${citySlug}/${mealSlug}`,
+      url: `https://kykyemekliste.com/${citySlug}/${canonicalSlug}`,
       type: "website",
       siteName: "KYK Yemek Liste",
       locale: "tr_TR",
@@ -90,6 +92,33 @@ export default async function Page(props: { params: Params; searchParams: Search
   const mType = mealSlugToType[mealSlug];
   if (!cityName || mType === undefined) return notFound();
 
+  const mealTR = humanMeal(mealSlug);
+  const canonicalSlug = mealTypeToSlug[mType];
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": `${cityName} KYK ${mealTR} Menüsü`,
+    "description": `${cityName} KYK yurtları ${mealTR.toLowerCase()} menüsü. Güncel yurt yemek listesi.`,
+    "url": `https://kykyemekliste.com/${citySlug}/${canonicalSlug}`,
+    "breadcrumb": {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "https://kykyemekliste.com" },
+        { "@type": "ListItem", "position": 2, "name": "Şehirler", "item": "https://kykyemekliste.com/sehirler" },
+        { "@type": "ListItem", "position": 3, "name": cityName, "item": `https://kykyemekliste.com/${citySlug}/${canonicalSlug}` }
+      ]
+    }
+  };
+
   // Key ile component'i force re-render yap
-  return <CityMenuPage key={`${citySlug}-${mealSlug}`} initialCitySlug={citySlug} initialMealType={mType} />;
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <CityMenuPage key={`${citySlug}-${mealSlug}`} initialCitySlug={citySlug} initialMealType={mType} />
+    </>
+  );
 }

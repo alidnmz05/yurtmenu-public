@@ -62,7 +62,7 @@ export default async function Page() {
                 </Link>
                 <Link 
                   className="flex-1 text-center py-2 bg-blue-500 hover:bg-blue-600 text-white rounded transition-colors" 
-                  href={`/${c.slug}/${mealTypeToSlug[2]}`}
+                  href={`/${c.slug}/${mealTypeToSlug[1]}`}
                 >
                   Akşam
                 </Link>
