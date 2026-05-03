@@ -69,8 +69,9 @@ run();
 
 return (
 <div className="flex items-center gap-3">
-<label className="text-sm font-medium text-[#4b3e2b]">Şehir:</label>
+<label htmlFor="city-select" className="text-sm font-medium text-[#4b3e2b]">Şehir:</label>
 <select
+id="city-select"
 value={value}
 onChange={(e) => {
 const newId = Number(e.target.value);

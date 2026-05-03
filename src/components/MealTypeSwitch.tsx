@@ -18,6 +18,7 @@ return (
 <label className="relative inline-flex items-center cursor-pointer">
 <input
 type="checkbox"
+aria-label="Öğün Seçimi (Sabah veya Akşam)"
 checked={value === 1}
 onChange={(e) => onChange(e.target.checked ? 1 : 0)}
 className="sr-only peer"
