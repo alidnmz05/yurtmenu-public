@@ -20,8 +20,8 @@ function buildUrl(path: string) {
   let cleanPath = `/${path.replace(/^\/+/, "")}`;
   
   if (typeof window !== "undefined") {
-    if (cleanPath.startsWith('/api/') && !cleanPath.startsWith('/bff-proxy/')) {
-      cleanPath = cleanPath.replace('/api/', '/bff-proxy/');
+    if (cleanPath.startsWith('/api/') && !cleanPath.startsWith('/yurt-tunnel/')) {
+      cleanPath = cleanPath.replace('/api/', '/yurt-tunnel/');
     }
     return cleanPath;
   }
