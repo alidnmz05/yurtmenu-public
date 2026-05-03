@@ -17,7 +17,15 @@ const BUILD_TIME_BASE = typeof window === "undefined" && !API_BASE
   : API_BASE;
 
 function buildUrl(path: string) {
-  const cleanPath = `/${path.replace(/^\/+/, "")}`;
+  let cleanPath = `/${path.replace(/^\/+/, "")}`;
+  
+  if (typeof window !== "undefined") {
+    if (cleanPath.startsWith('/api/') && !cleanPath.startsWith('/api/proxy/')) {
+      cleanPath = cleanPath.replace('/api/', '/api/proxy/');
+    }
+    return cleanPath;
+  }
+
   const combined = `${BUILD_TIME_BASE}${cleanPath}`.replace(/\/api\/api\//g, "/api/");
   return BUILD_TIME_BASE ? combined : cleanPath;
 }
@@ -32,6 +40,10 @@ export async function apiFetch(path: string, init: ApiFetchInit = {}) {
   }
   const credentials: RequestCredentials =
     init.credentials ?? (typeof window === "undefined" ? "same-origin" : "include");
+
+  if (typeof window === "undefined" && process.env.API_SECRET_KEY) {
+    headers.set("x-api-key", process.env.API_SECRET_KEY);
+  }
 
   const res = await fetch(url, { ...init, headers, credentials });
   if (!res.ok) throw new Error(`API ${res.status} ${res.statusText} @ ${url}`);

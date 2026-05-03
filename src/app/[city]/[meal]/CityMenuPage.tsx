@@ -215,16 +215,6 @@ export default function CityMenuPage({
       {/* Footer */}
       <Footer />
 
-      {/* Varsayılan SKY paleti */}
-      <style jsx global>{`
-        :root {
-          --brand-100: 189 45% 88%;
-          --brand-300: 189 50% 82%;
-          --brand-400: 189 50% 73%;
-          --brand-500: 189 55% 62%;
-          --brand-900: 217 33% 17%;
-        }
-      `}</style>
     </div>
   );
 }

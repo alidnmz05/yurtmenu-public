@@ -1,10 +1,15 @@
-﻿@tailwind base;
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --brand-100: 189 45% 88%;
+  --brand-300: 189 50% 82%;
+  --brand-400: 189 50% 73%;
+  --brand-500: 189 55% 62%;
+  --brand-900: 217 33% 17%;
 }
 
 /* yatay scroll barı gizle ama kaydırma açık kalsın */
