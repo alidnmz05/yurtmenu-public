@@ -4,17 +4,17 @@ import type { Metadata, Viewport } from "next";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://kykyemekliste.com"),
-  title: { default: "KYK Yemek Listesi | Güncel Yurt Menüsü 2025", template: "%s | KYK Yemek Listesi" },
+  title: { default: "KYK Yemek Listesi | Güncel Yurt Menüsü 2026", template: "%s | KYK Yemek Listesi" },
   description:
     "KYK yemek listesi bugün ne var? Güncel yurt menüsü ve günlük yemekler. 81 il KYK yurtlarının kahvaltı ve akşam yemek listesini şehir bazında görüntüleyin. Aylık menü takvimi.",
   keywords: [
     "KYK menüsü","KYK menü","KYK yemek listesi","yurt yemek menüsü","güncel yurt menüsü",
     "KYK kahvaltı menüsü","KYK akşam menüsü","kyk yemek listesi bugün","yurt yemekleri",
-    "öğrenci yurdu menü","günlük yemek listesi","aylık yurt menüsü 2025","KYK beslenme",
+    "öğrenci yurdu menü","günlük yemek listesi","aylık yurt menüsü 2026","KYK beslenme",
     "istanbul KYK menü","ankara KYK yemek","izmir yurt menüsü","bursa KYK","antalya yurt",
     "KYK yurtları yemek listesi","yurt sabah kahvaltısı","yurt akşam yemeği","öğrenci menüsü",
     "KYK günlük menü","yurt beslenme programı","kredi yurtlar kurumu menü","devlet yurdu menü",
-    "kyk menü bugün","kyk menü 2025","öğrenci yurdu yemekleri","yurt yemek çeşitleri",
+    "kyk menü bugün","kyk menü 2026","öğrenci yurdu yemekleri","yurt yemek çeşitleri",
     "kyk yemek menüsü aylık","güncel KYK menüsü","yurt yemeği ne var","kyk yurt yemekleri listesi",
   ],
   applicationName: "KYK Yemek Listesi",
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     siteName: "KYK Yemek Listesi",
-    title: "KYK Yemek Listesi | Güncel Yurt Menüsü 2025",
+    title: "KYK Yemek Listesi | Güncel Yurt Menüsü 2026",
     description:
       "KYK yemek listesi: Güncel yurt menüsü ve yemekleri. Kahvaltıda peynir, zeytin, yumurta; akşamda çorba, pilav, ana yemek. 81 il KYK yurt yemek listesi.",
     url: "https://kykyemekliste.com",
