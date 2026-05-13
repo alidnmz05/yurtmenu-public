@@ -16,14 +16,24 @@ const BUILD_TIME_BASE = typeof window === "undefined" && !API_BASE
   ? "http://localhost:5181" 
   : API_BASE;
 
+const USE_FIREBASE = process.env.NEXT_PUBLIC_USE_FIREBASE === "true";
+
 function buildUrl(path: string) {
   let cleanPath = `/${path.replace(/^\/+/, "")}`;
   
   if (typeof window !== "undefined") {
-    if (cleanPath.startsWith('/api/') && !cleanPath.startsWith('/yurt-tunnel/')) {
+    // Firebase modunda yurt-tunnel proxy'sini atla — doğrudan /api/* çağır
+    if (!USE_FIREBASE && cleanPath.startsWith('/api/') && !cleanPath.startsWith('/yurt-tunnel/')) {
       cleanPath = cleanPath.replace('/api/', '/yurt-tunnel/');
     }
     return cleanPath;
+  }
+
+  // SSR / build tarafı
+  if (USE_FIREBASE) {
+    // Firebase modunda lokal Next.js route handler'larını çağır
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+    return `${baseUrl.replace(/\/+$/, "")}${cleanPath}`;
   }
 
   const combined = `${BUILD_TIME_BASE}${cleanPath}`.replace(/\/api\/api\//g, "/api/");
