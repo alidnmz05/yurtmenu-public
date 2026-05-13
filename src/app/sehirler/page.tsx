@@ -1,7 +1,7 @@
 // src/app/sehirler/page.tsx
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getCities } from "@/lib/api";
+import { CITIES } from "@/lib/cities";
 import { slugifyCity, mealTypeToSlug, ALL_CITIES_TR } from "@/lib/seo-maps";
 
 export const revalidate = 86400; // günlük yenile
@@ -19,14 +19,13 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
-  const apiCities = await getCities();
-  const apiCityNames = new Set(apiCities.map(c => c.name));
-  
-  // 81 ili oluştur - API'de olanları ve olmayanları ayır
+  // Firebase modunda statik listeden al — HTTP çağrısı yok
+  const availableNames = new Set(CITIES.map(c => c.name));
+
   const allItems = ALL_CITIES_TR.map((cityName) => ({
     name: cityName,
     slug: slugifyCity(cityName),
-    available: apiCityNames.has(cityName),
+    available: availableNames.has(cityName),
   })).sort((a, b) => a.name.localeCompare(b.name, "tr", { sensitivity: "base" }));
 
   return (
